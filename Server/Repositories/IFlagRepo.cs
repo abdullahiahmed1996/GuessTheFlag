@@ -5,10 +5,10 @@ namespace GuessTheFlag.Server.Repositories
     public interface IFlagRepo
     {
             
-        Task<List<CountryModel>> GetAllCountries();
-        Task<CountryModel> GetCountryById(int id);
-        Task<CountryModel> GetRandomCountries(int count);
-        Task<CountryModel> UpdateCountry(CountryModel country);
+        Task<List<CountryModel>> GetAllFlags(int count);
+        Task<CountryModel> GetFlagById(int id);
+        Task<CountryModel> GetRandomFlags(int count);
+        Task<CountryModel> UpdateFlag(CountryModel flag);
 
     
     }
