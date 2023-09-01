@@ -22,6 +22,11 @@ namespace GuessTheFlag.Server.Repositories
             return await _context.Users.OrderByDescending(u => u.Score).Take(count).ToListAsync();
         }
 
+        /// <summary>
+        /// Spara en användares poäng i databasen.
+        /// </summary>
+        /// <param name="userScore">Användarmodell som innehåller poängen som ska sparas.</param>
+        /// <returns>En uppgift som representerar den sparade användarmodellen med ett unikt ID.</returns>
         public async Task<int> SaveScore(UserModel userScore)
         {
             _context.Users.Add(userScore);

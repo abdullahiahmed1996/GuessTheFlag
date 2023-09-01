@@ -16,6 +16,11 @@ namespace GuessTheFlag.Server.Controllers
             _countryRepo= countryRepo;
         }
 
+        /// <summary>
+        /// Hämtar ett land med ett specifikt ID.
+        /// </summary>
+        /// <param name="id">ID för landet som ska hämtas.</param>
+        /// <returns>En uppgift som representerar landmodellen med det angivna ID:et.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CountryModel>> GetCountryById(int id)
         {
@@ -27,6 +32,27 @@ namespace GuessTheFlag.Server.Controllers
             return Ok(country);
         }
 
+        /// <summary>
+        /// Hämtar ett land med ett specifikt namn.
+        /// </summary>
+        /// <param name="name">Namnet på landet som ska hämtas.</param>
+        /// <returns>En uppgift som representerar landmodellen med det angivna namnet.</returns>
+        [HttpGet ("name")]
+        public async Task<ActionResult<CountryModel>> GetCountryByName(string name)
+        {
+            var countryName = await _countryRepo.GetCountryByName(name);
+            if(countryName==null)
+            {
+                return NotFound("Sorry! We could not find the country you are looking for.");
+            }
+            return Ok(countryName);
+        }
+
+        /// <summary>
+        /// Hämtar alla länder upp till det angivna antalet i en lista.
+        /// </summary>
+        /// <param name="count">Antal länder att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av landmodeller.</returns>
         [HttpGet]
         public async Task<ActionResult<List<CountryModel>>> GetAllCountries(int count)
         {
@@ -38,6 +64,11 @@ namespace GuessTheFlag.Server.Controllers
             return Ok(allCountries);
         }
 
+        /// <summary>
+        /// Hämtar ett angivet antal slumpmässiga länder i en lista.
+        /// </summary>
+        /// <param name="count">Antal slumpmässiga länder att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av slumpmässiga landmodeller.</returns>
         [HttpGet ("random/{count}")]
         public async Task<ActionResult<List<CountryModel>>> GetRandomCountries(int count)
         {

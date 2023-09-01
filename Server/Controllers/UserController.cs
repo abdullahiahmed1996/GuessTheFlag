@@ -15,6 +15,11 @@ namespace GuessTheFlag.Server.Controllers
             _userRepo= userRepo;
         }
 
+        /// <summary>
+        /// Hämtar de bästa användarna baserat på poäng i en listform.
+        /// </summary>
+        /// <param name="count">Antal användare att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av användarmodeller.</returns>
         [HttpGet ("topscores/{count}")]
         public async Task<ActionResult<List<UserModel>>> GetTopScores(int count)
         {
@@ -26,13 +31,18 @@ namespace GuessTheFlag.Server.Controllers
             return Ok (topScores);
         }
 
+        /// <summary>
+        /// Spara en användares poäng i databasen.
+        /// </summary>
+        /// <param name="userScore">Användarmodell som innehåller poängen som ska sparas.</param>
+        /// <returns>En uppgift som representerar det sparade användar-ID:et.</returns>
         [HttpPost ("save")]
         public async Task<ActionResult<int>> SaveScore(UserModel userScore)
         {
             var saveScore = await _userRepo.SaveScore (userScore);
             if(saveScore == null)
             {
-                return BadRequest ("Something went wrong! The score is not saved.")
+                return BadRequest("Something went wrong! The score is not saved.");
             }
             return Ok (saveScore);
         }

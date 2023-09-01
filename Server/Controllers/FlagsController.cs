@@ -16,9 +16,13 @@ namespace GuessTheFlag.Server.Controllers
             _flagRepo= flagRepo;
         }
 
-
+        /// <summary>
+        /// Hämtar en flagga med ett specifikt ID.
+        /// </summary>
+        /// <param name="id">ID för flaggan som ska hämtas.</param>
+        /// <returns>En uppgift som representerar flaggmodellen med det angivna ID:et.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<FlagModel>> Get(int id)
+        public async Task<ActionResult<FlagModel>> GetFlagById(int id)
         {
             var flag = await _flagRepo.GetFlagById(id);
             if(flag == null)
@@ -28,6 +32,11 @@ namespace GuessTheFlag.Server.Controllers
             return Ok(flag);
         }
 
+        /// <summary>
+        /// Hämtar alla flaggor upp till det angivna antalet i en lista.
+        /// </summary>
+        /// <param name="count">Antal flaggor att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av flaggmodeller.</returns>
         [HttpGet]
         public async Task<ActionResult<List<FlagModel>>> GetAllFlags(int count)
         {
@@ -39,6 +48,12 @@ namespace GuessTheFlag.Server.Controllers
             return Ok(country);
         }
 
+        /// <summary>
+        /// Hämtar ett angivet antal slumpmässiga flaggor i en lista.
+        /// </summary>
+        /// <param name="count">Antal slumpmässiga flaggor att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av slumpmässiga flaggmodeller.</returns>
+        [HttpGet("random/{count}")]
         [HttpGet ("random/{count}")]
         public async Task<ActionResult<List<FlagModel>>> GetRandomFlags(int count)
         {
