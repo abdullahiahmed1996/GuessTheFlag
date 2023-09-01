@@ -1,26 +1,25 @@
-﻿
-using GuessTheFlag.Shared.Models;
+﻿using GuessTheFlag.Shared.Models;
 
 namespace GuessTheFlag.Server.Repositories
 {
-    public class FlagRepo : IFlagRepo
+    public class CountryRepo : ICountryRepo
     {
-        public Task<List<CountryModel>> GetAllFlags(int count)
+        public Task<List<CountryModel>> GetAllCountries(int count)
         {
             throw new NotImplementedException();
         }
 
-        public Task<CountryModel> GetFlagById(int id)
+        public Task<CountryModel> GetCountryById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<CountryModel> GetRandomFlags(int count)
+        public Task<CountryModel> GetCountryByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public Task<CountryModel> UpdateFlag(CountryModel flag)
+        public Task<CountryModel> GetRandomCountries(int count)
         {
             throw new NotImplementedException();
         }
