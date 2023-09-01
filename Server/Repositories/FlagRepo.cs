@@ -1,28 +1,38 @@
 ﻿
+using GuessTheFlag.Server.Data;
 using GuessTheFlag.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GuessTheFlag.Server.Repositories
 {
     public class FlagRepo : IFlagRepo
     {
-        public Task<List<CountryModel>> GetAllFlags(int count)
+        private readonly AppDbContext _context;
+        public FlagRepo(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context= context;
+        }
+        public async Task<List<FlagModel>> GetAllFlags(int count)
+        {
+            return await _context.Flags.Take(count).ToListAsync();
         }
 
-        public Task<CountryModel> GetFlagById(int id)
+        public async Task<FlagModel> GetFlagById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Flags.FindAsync(id);
         }
 
-        public Task<CountryModel> GetRandomFlags(int count)
+        public async Task<List<FlagModel>> GetRandomFlags(int count)
         {
-            throw new NotImplementedException();
+            return await _context.Flags.OrderBy(f => Guid.NewGuid()).Take(count).ToListAsync();
         }
 
-        public Task<CountryModel> UpdateFlag(CountryModel flag)
+        public async Task<FlagModel> UpdateFlag(FlagModel flag)
         {
-            throw new NotImplementedException();
+            _context.Flags.Update(flag);
+            await _context.SaveChangesAsync();
+            return flag;
         }
+
     }
 }

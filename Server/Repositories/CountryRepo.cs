@@ -1,27 +1,34 @@
-﻿using GuessTheFlag.Shared.Models;
+﻿using GuessTheFlag.Server.Data;
+using GuessTheFlag.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GuessTheFlag.Server.Repositories
 {
     public class CountryRepo : ICountryRepo
     {
-        public Task<List<CountryModel>> GetAllCountries(int count)
+        private readonly AppDbContext _context;
+        public CountryRepo(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<List<CountryModel>> GetAllCountries(int count)
+        {
+            return await _context.Countries.Take(count).ToListAsync();
         }
 
-        public Task<CountryModel> GetCountryById(int id)
+        public async Task<CountryModel> GetCountryById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Countries.FindAsync(id);
         }
 
-        public Task<CountryModel> GetCountryByName(string name)
+        public async Task<CountryModel> GetCountryByName(string name)
         {
-            throw new NotImplementedException();
+            return await _context.Countries.FirstOrDefaultAsync(c => c.Name = name);
         }
 
-        public Task<CountryModel> GetRandomCountries(int count)
+        public async Task<List<CountryModel>> GetRandomCountries(int count)
         {
-            throw new NotImplementedException();
+            return await _context.Countries.OrderBy(c => Guid.NewGuid()).Take(count).ToListAsync();
         }
     }
 }

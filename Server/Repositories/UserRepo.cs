@@ -1,17 +1,26 @@
-﻿using GuessTheFlag.Shared.Models;
+﻿using GuessTheFlag.Server.Data;
+using GuessTheFlag.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GuessTheFlag.Server.Repositories
 {
     public class UserRepo : IUserRepo
     {
-        public Task<List<UserModel>> GetTopScores(int count)
+        private readonly AppDbContext _context;
+        public UserRepo(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<List<UserModel>> GetTopScores(int count)
+        {
+            return await _context.Users.OrderByDescending(u => u.Score).Take(count).ToListAsync();
         }
 
-        public Task<int> SaveScore(UserModel userScore)
+        public async Task<int> SaveScore(UserModel userScore)
         {
-            throw new NotImplementedException();
+            _context.Users.Add(userScore);
+            await _context.SaveChangesAsync();
+            return userScore.Id;
         }
     }
 }
