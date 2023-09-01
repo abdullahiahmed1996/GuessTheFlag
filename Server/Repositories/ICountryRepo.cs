@@ -8,6 +8,6 @@ namespace GuessTheFlag.Server.Repositories
         Task<CountryModel> GetCountryById(int id);
         Task<CountryModel> GetCountryByName(string name);
         Task<List<CountryModel>> GetAllCountries(int count);
-        Task<CountryModel> GetRandomCountries(int count);
+        Task<List<CountryModel>> GetRandomCountries(int count);
     }
 }

@@ -11,6 +11,12 @@ namespace GuessTheFlag.Server.Repositories
         {
             _context = context;
         }
+
+        /// <summary>
+        /// Hämtar de bästa användarna baserat på poäng i en listform.
+        /// </summary>
+        /// <param name="count">Antal användare att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av användarmodeller.</returns>
         public async Task<List<UserModel>> GetTopScores(int count)
         {
             return await _context.Users.OrderByDescending(u => u.Score).Take(count).ToListAsync();

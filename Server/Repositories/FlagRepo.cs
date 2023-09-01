@@ -33,6 +33,5 @@ namespace GuessTheFlag.Server.Repositories
             await _context.SaveChangesAsync();
             return flag;
         }
-
     }
 }
