@@ -22,9 +22,9 @@ namespace GuessTheFlag.Server.Controllers
         /// <param name="id">ID för flaggan som ska hämtas.</param>
         /// <returns>En uppgift som representerar flaggmodellen med det angivna ID:et.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<FlagModel>> GetFlagById(int id)
+        public async Task<ActionResult<FlagModel>> GetFlagByIdAsync(int id)
         {
-            var flag = await _flagRepo.GetFlagById(id);
+            var flag = await _flagRepo.GetFlagByIdAsync(id);
             if(flag == null)
             {
                 return NotFound("Something went wrong!");
@@ -38,9 +38,9 @@ namespace GuessTheFlag.Server.Controllers
         /// <param name="count">Antal flaggor att hämta.</param>
         /// <returns>En uppgift som representerar en lista av flaggmodeller.</returns>
         [HttpGet]
-        public async Task<ActionResult<List<FlagModel>>> GetAllFlags(int count)
+        public async Task<ActionResult<List<FlagModel>>> GetAllFlagsAsync(int count)
         {
-            var country = await _flagRepo.GetAllFlags(count);
+            var country = await _flagRepo.GetAllFlagsAsync(count);
             if(country == null)
             {
                 return NotFound("Something went wrong!");
@@ -53,20 +53,15 @@ namespace GuessTheFlag.Server.Controllers
         /// </summary>
         /// <param name="count">Antal slumpmässiga flaggor att hämta.</param>
         /// <returns>En uppgift som representerar en lista av slumpmässiga flaggmodeller.</returns>
-        [HttpGet("random/{count}")]
         [HttpGet ("random/{count}")]
-        public async Task<ActionResult<List<FlagModel>>> GetRandomFlags(int count)
+        public async Task<ActionResult<List<FlagModel>>> GetRandomFlagsAsync(int count)
         {
-            var randomCountries = await _flagRepo.GetRandomFlags(count);
+            var randomCountries = await _flagRepo.GetRandomFlagsAsync(count);
             if(randomCountries == null)
             {
-                return NotFound("Something went wrong!");
+                return NotFound("No flags found!");
             }
             return Ok(randomCountries);
         }
-
-
-
-
     }
 }

@@ -17,7 +17,7 @@ namespace GuessTheFlag.Server.Repositories
         /// </summary>
         /// <param name="count">Antal användare att hämta.</param>
         /// <returns>En uppgift som representerar en lista av användarmodeller.</returns>
-        public async Task<List<UserModel>> GetTopScores(int count)
+        public async Task<List<UserModel>> GetTopScoresAsync(int count)
         {
             return await _context.Users.OrderByDescending(u => u.Score).Take(count).ToListAsync();
         }
@@ -27,7 +27,7 @@ namespace GuessTheFlag.Server.Repositories
         /// </summary>
         /// <param name="userScore">Användarmodell som innehåller poängen som ska sparas.</param>
         /// <returns>En uppgift som representerar den sparade användarmodellen med ett unikt ID.</returns>
-        public async Task<int> SaveScore(UserModel userScore)
+        public async Task<int> SaveScoreAsync(UserModel userScore)
         {
             _context.Users.Add(userScore);
             await _context.SaveChangesAsync();

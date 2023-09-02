@@ -22,9 +22,9 @@ namespace GuessTheFlag.Server.Controllers
         /// <param name="id">ID för landet som ska hämtas.</param>
         /// <returns>En uppgift som representerar landmodellen med det angivna ID:et.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<CountryModel>> GetCountryById(int id)
+        public async Task<ActionResult<CountryModel>> GetCountryByIdAsync(int id)
         {
-            var country = await _countryRepo.GetCountryById(id);
+            var country = await _countryRepo.GetCountryByIdAsync(id);
             if(country== null)
             {
                 return NotFound();
@@ -38,9 +38,9 @@ namespace GuessTheFlag.Server.Controllers
         /// <param name="name">Namnet på landet som ska hämtas.</param>
         /// <returns>En uppgift som representerar landmodellen med det angivna namnet.</returns>
         [HttpGet ("name")]
-        public async Task<ActionResult<CountryModel>> GetCountryByName(string name)
+        public async Task<ActionResult<CountryModel>> GetCountryByNameAsync(string name)
         {
-            var countryName = await _countryRepo.GetCountryByName(name);
+            var countryName = await _countryRepo.GetCountryByNameAsync(name);
             if(countryName==null)
             {
                 return NotFound("Sorry! We could not find the country you are looking for.");
@@ -54,9 +54,9 @@ namespace GuessTheFlag.Server.Controllers
         /// <param name="count">Antal länder att hämta.</param>
         /// <returns>En uppgift som representerar en lista av landmodeller.</returns>
         [HttpGet]
-        public async Task<ActionResult<List<CountryModel>>> GetAllCountries(int count)
+        public async Task<ActionResult<List<CountryModel>>> GetAllCountriesAsync(int count)
         {
-            var allCountries = await _countryRepo.GetAllCountries(count);
+            var allCountries = await _countryRepo.GetAllCountriesAsync(count);
             if(allCountries==null)
             {
                 return NotFound("OOPS! Something went wrong!");
@@ -70,9 +70,9 @@ namespace GuessTheFlag.Server.Controllers
         /// <param name="count">Antal slumpmässiga länder att hämta.</param>
         /// <returns>En uppgift som representerar en lista av slumpmässiga landmodeller.</returns>
         [HttpGet ("random/{count}")]
-        public async Task<ActionResult<List<CountryModel>>> GetRandomCountries(int count)
+        public async Task<ActionResult<List<CountryModel>>> GetRandomCountriesAsync(int count)
         {
-            var randomCountries = await _countryRepo.GetRandomCountries(count);
+            var randomCountries = await _countryRepo.GetRandomCountriesAsync(count);
             if(randomCountries==null)
             {
                 return NotFound("OOPS! Something went wrong!");

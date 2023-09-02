@@ -1,13 +1,13 @@
 ﻿using GuessTheFlag.Shared.Models;
 
-namespace GuessTheFlag.Server.Repositories
+namespace GuessTheFlag.Client.Services
 {
-    public interface ICountryRepo
+    public interface ICountryService
     {
-
         Task<CountryModel> GetCountryByIdAsync(int id);
-        Task<CountryModel> GetCountryByNameAsync(string name);
         Task<List<CountryModel>> GetAllCountriesAsync(int count);
+        Task<CountryModel> GetCountryByNameAsync(string name);
         Task<List<CountryModel>> GetRandomCountriesAsync(int count);
+
     }
 }
