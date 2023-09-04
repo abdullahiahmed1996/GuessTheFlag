@@ -1,27 +1,55 @@
-﻿using GuessTheFlag.Shared.Models;
+﻿using GuessTheFlag.Server.Data;
+using GuessTheFlag.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GuessTheFlag.Server.Repositories
 {
     public class CountryRepo : ICountryRepo
     {
-        public Task<List<CountryModel>> GetAllCountries(int count)
+        private readonly AppDbContext _context;
+        public CountryRepo(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<CountryModel> GetCountryById(int id)
+        /// <summary>
+        /// Hämtar alla länder upp till det angivna antalet i en lista.
+        /// </summary>
+        /// <param name="count">Antal länder att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av landmodeller.</returns>
+        public async Task<List<CountryModel>> GetAllCountriesAsync(int count)
         {
-            throw new NotImplementedException();
+            return await _context.Countries.Take(count).ToListAsync();
         }
 
-        public Task<CountryModel> GetCountryByName(string name)
+        /// <summary>
+        /// Hämtar ett land med ett specifikt ID.
+        /// </summary>
+        /// <param name="id">ID för landet som ska hämtas.</param>
+        /// <returns>En uppgift som representerar landmodellen med det angivna ID:et.</returns>
+        public async Task<CountryModel> GetCountryByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Countries.FindAsync(id);
         }
 
-        public Task<CountryModel> GetRandomCountries(int count)
+        /// <summary>
+        /// Hämtar ett land med ett specifikt namn.
+        /// </summary>
+        /// <param name="name">Namnet på landet som ska hämtas.</param>
+        /// <returns>En uppgift som representerar landmodellen med det angivna namnet.</returns>
+        public async Task<CountryModel> GetCountryByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await _context.Countries.FirstOrDefaultAsync(c => c.Name == name);
+        }
+
+        /// <summary>
+        /// Hämtar ett angivet antal slumpmässiga länder i en lista.
+        /// </summary>
+        /// <param name="count">Antal slumpmässiga länder att hämta.</param>
+        /// <returns>En uppgift som representerar en lista av slumpmässiga landmodeller.</returns>
+        public async Task<List<CountryModel>> GetRandomCountriesAsync(int count)
+        {
+            return await _context.Countries.OrderBy(c => Guid.NewGuid()).Take(count).ToListAsync();
         }
     }
 }

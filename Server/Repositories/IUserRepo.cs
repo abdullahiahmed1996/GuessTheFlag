@@ -4,7 +4,7 @@ namespace GuessTheFlag.Server.Repositories
 {
     public interface IUserRepo
     {
-        Task<int> SaveScore(UserModel userScore);
-        Task<List<UserModel>> GetTopScores(int count);
+        Task<int> SaveScoreAsync(UserModel userScore);
+        Task<List<UserModel>> GetTopScoresAsync(int count);
     }
 }
