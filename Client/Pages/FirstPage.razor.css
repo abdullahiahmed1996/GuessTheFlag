@@ -1,19 +1,29 @@
+.mainbody {
+    
+}
 .main-background {
-  background-image: url("/Image/Background.jpg"); /* Adjust the path to your image */
 
-  background-repeat: no-repeat;
-  height: 1080px;
-  width: 1920px;
+   
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 55%;
 }
 .blue-box {
   background-color: darkcyan; /* Blue box background color */
-  width: 300px; /* Adjust the width as needed */
-  height: 400px; /* Adjust the height as needed */
+  width: 200px; /* Adjust the width as needed */
+  height: 300px; /* Adjust the height as needed */
   position: absolute; /* Position the box relative to the parent */
   top: 50%; /* Center the box vertically */
-  left: 35%; /* Center the box horizontally */
+  left: 50%; /* Center the box horizontally */
   transform: translate(-50%, -50%); /* Center the box precisely */
   border: 2px solid white; /* Add a white border if desired */
   /* Add any other styles or content for the blue box */
 }
 
+.gtfHeader {
+    font-size: 40px;
+}
