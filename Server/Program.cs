@@ -1,4 +1,5 @@
 using GuessTheFlag.Server.Data;
+using GuessTheFlag.Server.Repositories;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+/// <summary>
+/// Lägger till en tjänst i dependency injection-container för att hantera landrelaterad data.
+/// </summary>
+builder.Services.AddScoped<ICountryRepo, CountryRepo>();
+/// <summary>
+/// Lägger till en tjänst i dependency injection-container för att hantera flaggrelaterad data.
+/// </summary>
+builder.Services.AddScoped<IFlagRepo, FlagRepo>();
+/// <summary>
+/// Lägger till en tjänst i dependency injection-container för att hantera användarrelaterad data.
+/// </summary>
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+
 
 var app = builder.Build();
 
