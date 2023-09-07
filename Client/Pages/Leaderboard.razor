@@ -1,5 +1,30 @@
-﻿<h3>Leaderboard</h3>
+﻿@page "/leaderboard"
+@inject NavigationManager NavigationManager
+
+
+
+
+<div class="main-background">
+    
+    <img class="fullscreen-image" src="Image/Background.jpg" alt="Background Image" />
+
+    <div class="blue-box text-center">
+        <h1 class="gtfHeader text-white">Leaderboard</h1>
+        <ol>
+
+        </ol>
+        <button @onclick="NavigateToMainPage" type="button" class="btn btn-light ">
+            Play
+        </button>
+        
+    </div>
+</div>
 
 @code {
+
+    private void NavigateToMainPage()
+    {
+        NavigationManager.NavigateTo("/");
+    }
 
 }
