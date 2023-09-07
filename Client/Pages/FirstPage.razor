@@ -1,5 +1,5 @@
 ﻿@page "/"
-
+@inject NavigationManager NavigationManager
 
     <body class="main-background">
     <img class="fullscreen-image" src="Image/Background.jpg" alt="Background Image" />
@@ -9,11 +9,11 @@
                 Discover the flags and <br>
                 learn the world!
             </p>
-            <button type="button" class="btn btn-light ">
-                Play
-            </button>
+        <button @onclick="NavigateToPlay" type="button" class="btn btn-light">
+            Play
+        </button>
             <br>
-            <button type="button" class="btn btn-light mt-3">
+            <button @onclick="NavigateToLeaderboard" type="button" class="btn btn-light mt-3">
                 Leaderboard
             </button>
         </div>
@@ -29,5 +29,13 @@
 </style>
 
 @code {
+    private void NavigateToLeaderboard()
+    {
+        NavigationManager.NavigateTo("/Leaderboard");
+    }
 
+    private void NavigateToPlay()
+    {
+        NavigationManager.NavigateTo("/Play");
+    }
 }
