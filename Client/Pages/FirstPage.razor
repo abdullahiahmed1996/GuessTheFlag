@@ -1,21 +1,24 @@
 ﻿@page "/"
+@inject NavigationManager NavigationManager
 
-
-<div class="main-background">
-       <div class="blue-box container-fluid text-center">
-            <h1 class="row display-5 text-white ">Guess the flag</h1>
-            <p class=" text-white">Discover the flags and <br>
+    <body class="main-background">
+    <img class="fullscreen-image" src="Image/Background.jpg" alt="Background Image" />
+        <div class="blue-box text-center">
+            <h1 class="gtfHeader text-white">Guess the flag</h1>
+            <p class=" text-white">
+                Discover the flags and <br>
                 learn the world!
             </p>
-            <button type="button" class="btn btn-light ">
-                Play
-            </button>
+        <button @onclick="NavigateToPlay" type="button" class="btn btn-light">
+            Play
+        </button>
             <br>
-              <button type="button" class="btn btn-light mt-3">
+            <button @onclick="NavigateToLeaderboard" type="button" class="btn btn-light mt-3">
                 Leaderboard
             </button>
-    </div>
-</div>
+        </div>
+    </body>
+
 
 
 
@@ -26,5 +29,13 @@
 </style>
 
 @code {
+    private void NavigateToLeaderboard()
+    {
+        NavigationManager.NavigateTo("/Leaderboard");
+    }
 
+    private void NavigateToPlay()
+    {
+        NavigationManager.NavigateTo("/Play");
+    }
 }
