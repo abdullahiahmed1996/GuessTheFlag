@@ -1,82 +1,28 @@
 ﻿@page "/scorepage"
 
-<h3>ScorePage</h3>
 
-<body>
-    <div class="card-container">
-        <div class="card">
-            <div class="card-score">
-                Score:
-            </div>
-            <div class="card-body">
-                <label type="text" id="scoreTextbox" readonly />
-            </div>
-            <div class="buttons">
-                <button class="play-again-btn">Play Again</button>
-                <button class="stop-playing-btn">Stop Playing</button>
-            </div>
+<div class="main-background">
+    <img class="backgroundpic" src="Image/Background.jpg" ); alt="backgroundpic" />
+    <div class="blue-box text-center">
+        <h1 class="gtfHeader text-white">Your Score:</h1>
+        <br />
+       <div class="print-points">
+            <label class="text-white">
+                Points
+            </label>
+       </div>
+        <div class="buttons">
+            <button type="button" class="btn-play btn-light ">
+                Play again
+            </button>
+            <br />
+            <button type="button" class="btn-stopplaying btn-light mt-3">
+                Stop playing
+            </button>
         </div>
     </div>
-</body>
+</div>
 
-
-<style>
-    .card-container{
-        display: flex;
-        justify-content:center;
-        align-items:center;
-        height:75vh;
-        color: gray;
-    }
-    .card{
-        width:400px;
-        height: 400px;
-        background-color: blue;
-        border-radius: 20px;
-        color: white;
-        text-align: center;
-    }
-    .card-body{
-        display: flex;
-        justify-content:center;
-    }
-
-    #scoreTextbox{
-        color: white;
-    }
-    
-    .card-score{
-        display: flex;
-        flex-direction:column;
-        justify-content: space-around;
-        font-size:65px;
-    }
-
-    .buttons{
-        display:flex;
-        justify-content: space-around;
-    }
-
-    .play-again-btn,
-    .stop-playing-btn{
-        padding: 5px;
-        border: none;
-        background-color:white;
-        color: black;
-        border-radius: 10px;
-        cursor: pointer;
-        margin-top:20px;
-    }
-
-    .background{
-        max-width:100%;
-        padding:0 0 0 0;
-        background-color:aliceblue;
-        background-image: url('image\background.jpg');
-        background-size: cover;
-        background-repeat:no-repeat;
-    }
-</style>
 
 
 @code {
@@ -91,12 +37,12 @@
     private void PlayAgain()
     {
         // restart game here 
+        // go to play page  
     }
 
     private void StopPlaying()
     {
         // stop playing, open new slide or move to the head slide
-        // Print score
         // Reset game
     }
 
