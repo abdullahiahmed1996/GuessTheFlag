@@ -1,5 +1,44 @@
-﻿<h3>NickNamePages</h3>
+﻿@page "/nickname"
+@inject NavigationManager NavigationManager
+
+
+<div class="main-background">
+
+    <img class="fullscreen-image" src="Image/Background.jpg" alt="Background Image" />
+
+    <div class="blue-box text-center">
+        <h1 class="gtfHeader text-white">Choose your Nickname</h1>
+        <button @onclick="NavigateToStart" type="button" class="btn btn-light ">
+            Start
+        </button>
+
+    </div>
+</div>
+@*<div class="main-background">
+    <img class="fullscreen-image" src="Image/Background.jpg" alt="Background Image" />
+    <div class="blue-box text-center">
+        <div class="form-group">
+            <label for="nickname" class="text-white">Choose your Nickname</label>
+            <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname">
+        </div>
+        <button type="button" class="btn btn-light mt-3">
+            Start
+        </button>
+    </div>
+</div>*@
+
+<style>
+    /* Add styles for your page content here */
+</style>
 
 @code {
-    
+    private void NavigateToStart()
+    {
+        NavigationManager.NavigateTo("/");
+    }
 }
+
+
+
+
+
