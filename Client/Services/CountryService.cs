@@ -6,9 +6,9 @@ namespace GuessTheFlag.Client.Services
     public class CountryService : ICountryService
     {
         private readonly HttpClient _httpClient;
-        private readonly ILogger _logger;
+        private readonly ILogger<CountryService> _logger;
 
-        public CountryService(HttpClient httpClient, ILogger logger)
+        public CountryService(HttpClient httpClient, ILogger<CountryService> logger)
         {
             _httpClient = httpClient;
             _logger = logger;

@@ -1,0 +1,105 @@
+﻿@page "/guesstheflag"
+@inject ICountryService countryService
+@inject IFlagService flagService
+@inject IUserService userService
+@inject NavigationManager navManager
+<link rel="stylesheet" href="~/css/GuessTheFlag.css"/>
+
+
+
+<h3>Guess The Flag!</h3>
+
+<div class="game-container">
+    <div class="data-container">
+        <div class="score">
+            @($"Score: {score}")
+        </div>
+        <div class="guesses-done">
+            @($"{guessed}/{totalGuesses}")
+        </div>
+    </div>
+
+    <div class="flag">
+        @if(currentFlag != null)
+        {
+            <img src="@currentFlag.ImgUrl" alt="Flag" />
+        }
+    </div>
+    <div class="options-container">
+        @foreach (var option in options!)
+        {
+            <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.CountryId ?? -1) ? "correctAnswer" : "") 
+            @(wrongAnswerSelected && option.Id != (currentFlag?.CountryId ?? -1) ? "wrongAnswer" : "")"  @onclick="() => CheckAnswer(option)">
+                @option.Name
+            </div>
+        }
+    </div>
+    @if (showNextButton)
+    {
+        <button @onclick="NextFlag">Next</button>
+    }
+</div>
+
+
+@code {
+    private List<CountryModel>? options;
+    private FlagModel? currentFlag;
+    private int score = 0;
+    private int guessed = 0;
+    private int totalGuesses = 10;
+    private bool showNextButton = false;
+    private bool wrongAnswerSelected = false;
+    private bool correctAnswerSelected = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNextFlag();
+    }
+
+    private async Task LoadNextFlag()
+    {
+        // Hämta en ny flagga och slumpa alternativen 
+        currentFlag = await flagService.GetRandomFlagAsync();
+
+        // Hämta 4 slumpmässiga länder
+        var countries = await countryService.GetRandomCountriesAsync(3);
+
+        // Lägg till rätta landet till flaggan bland alternativen
+        countries.Add(currentFlag.Country);
+
+        // Slumpa alternativen 
+        options = countries.OrderBy(c => Guid.NewGuid()).ToList();
+    }
+
+    private  void CheckAnswer(CountryModel selectedCountry)
+    {
+        if (selectedCountry.Id == (currentFlag?.CountryId ?? -1))
+        {
+            // Rätt svar ger poäng och ökar antal gissnningar
+            score++;
+            showNextButton = true;
+            wrongAnswerSelected = false;
+            correctAnswerSelected = true;
+        }
+        else
+        {
+            // Fel svar! Gör alternativet rött och fortsätt gissa 
+            wrongAnswerSelected = true;
+        }
+        guessed++;
+
+        if(guessed == totalGuesses)
+        {
+            // Visa nästa sida 
+            navManager.NavigateTo("/scorepage");
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task NextFlag()
+    {
+        await LoadNextFlag();
+        showNextButton = false;
+    }
+}

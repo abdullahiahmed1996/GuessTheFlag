@@ -10,7 +10,7 @@ namespace GuessTheFlag.Client.Services
 
         public FlagService(ILogger<FlagService> logger, HttpClient httpClient)
         {
-            _httpClient= httpClient;
+            _httpClient = httpClient;
             _logger = logger;
         }
 
@@ -24,8 +24,8 @@ namespace GuessTheFlag.Client.Services
             try
             {
                 var response = await _httpClient.GetFromJsonAsync<List<FlagModel>>($"api/flags/{count}");
-                
-                if(response != null)
+
+                if (response != null)
                 {
                     return response;
                 }
@@ -34,10 +34,11 @@ namespace GuessTheFlag.Client.Services
                     var errorMessage = "No flags found!";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
-                }           
+                }
 
 
-            }catch(HttpRequestException ex) 
+            }
+            catch (HttpRequestException ex)
             {
                 var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
                 _logger.LogError(errorMessage);
@@ -66,7 +67,8 @@ namespace GuessTheFlag.Client.Services
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-            }catch(HttpRequestException ex)
+            }
+            catch (HttpRequestException ex)
             {
                 var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
                 _logger.LogError(errorMessage);
@@ -75,15 +77,14 @@ namespace GuessTheFlag.Client.Services
         }
 
         /// <summary>
-        /// Hämtar ett angivet antal slumpmässiga flaggor från API:et.
+        /// Hämtar en slumpmässig flagga från API:et.
         /// </summary>
-        /// <param name="count">Antal slumpmässiga flaggor att hämta.</param>
-        /// <returns>En uppgift som representerar en lista av slumpmässiga FlagModel-objekt.</returns>
-        public async Task<List<FlagModel>> GetRandomFlagsAsync(int count)
+        /// <returns>En uppgift som representerar en slumpmässig FlagModel-objekt.</returns>
+        public async Task<FlagModel> GetRandomFlagAsync()
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<FlagModel>>($"api/flags/random/{count}");
+                var response = await _httpClient.GetFromJsonAsync<FlagModel>("api/flags/random");
 
                 if (response != null)
                 {
@@ -91,12 +92,13 @@ namespace GuessTheFlag.Client.Services
                 }
                 else
                 {
-                    var errorMessage = "Random flags were not found!";
+                    var errorMessage = "Random flag not found!";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
 
-            }catch(HttpRequestException ex)
+            }
+            catch (HttpRequestException ex)
             {
                 var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
                 _logger.LogError(errorMessage);

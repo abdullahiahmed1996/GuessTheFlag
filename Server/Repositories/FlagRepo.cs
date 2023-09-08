@@ -34,13 +34,12 @@ namespace GuessTheFlag.Server.Repositories
         }
 
         /// <summary>
-        /// Hämtar ett angivet antal slumpmässiga flaggor i en lista.
+        /// Hämtar en slumpmässig flagga.
         /// </summary>
-        /// <param name="count">Antal slumpmässiga flaggor att hämta.</param>
-        /// <returns>En uppgift som representerar en lista av slumpmässiga flaggmodeller.</returns>
-        public async Task<List<FlagModel>> GetRandomFlagsAsync(int count)
+        /// <returns>En uppgift som representerar en slumpmässig FlagModel.</returns>
+        public async Task<FlagModel> GetRandomFlagAsync()
         {
-            return await _context.Flags.OrderBy(f => Guid.NewGuid()).Take(count).ToListAsync();
+            return await _context.Flags.OrderBy(f => Guid.NewGuid()).FirstOrDefaultAsync();
         }
 
         /// <summary>

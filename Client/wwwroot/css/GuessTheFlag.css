@@ -1,0 +1,12 @@
+﻿body {
+}
+
+
+.correctAnswer{
+    color:red;
+
+}
+
+.wrongAnswer{
+    background-color:green;
+}
