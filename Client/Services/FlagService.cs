@@ -1,4 +1,5 @@
 ﻿using GuessTheFlag.Shared.Models;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
 
 namespace GuessTheFlag.Client.Services
@@ -23,26 +24,25 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<FlagModel>>($"api/flags/{count}");
+                var response = await _httpClient.GetAsync($"api/flags/{count}");
 
-                if (response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var flags = JsonConvert.DeserializeObject<List<FlagModel>>(json);
+                    return flags;
                 }
                 else
                 {
-                    var errorMessage = "No flags found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-
-
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
 
@@ -55,24 +55,25 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<FlagModel>($"api/flags/{id}");
+                var response = await _httpClient.GetAsync($"api/flags/{id}");
 
-                if (response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var flag = JsonConvert.DeserializeObject<FlagModel>(json);
+                    return flag;
                 }
                 else
                 {
-                    var errorMessage = "The flag was not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
 
@@ -84,25 +85,25 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<FlagModel>("api/flags/random");
+                var response = await _httpClient.GetAsync($"api/flags/random");
 
-                if (response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var flag = JsonConvert.DeserializeObject<FlagModel>(json);
+                    return flag;
                 }
                 else
                 {
-                    var errorMessage = "Random flag not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
     }

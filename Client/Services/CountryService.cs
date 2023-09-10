@@ -1,5 +1,7 @@
 ﻿using GuessTheFlag.Shared.Models;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 
 namespace GuessTheFlag.Client.Services
 {
@@ -23,26 +25,26 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<CountryModel>>($"api/countries/{count}");
+                var response = await _httpClient.GetAsync($"api/countries/{count}");
 
-                if(response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var countries = JsonConvert.DeserializeObject<List<CountryModel>>(json);
+                    return countries;
                 }
                 else
                 {
-                    var errorMessage = "Countries not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-
-            }catch(HttpRequestException ex)
-            {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
             }
-            
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -54,24 +56,25 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<CountryModel>($"api/countries/{id}");
+                var response = await _httpClient.GetAsync($"api/countries/{id}");
 
-                if(response != null )
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var country = JsonConvert.DeserializeObject<CountryModel>(json);
+                    return country;
                 }
                 else
                 {
-                    var errorMessage = "Country not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-
-            }catch(HttpRequestException ex)
+            }
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
 
@@ -84,25 +87,25 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<CountryModel>($"api/countries/{name}");
+                var response = await _httpClient.GetAsync($"api/countries/{name}");
 
-                if (response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var country = JsonConvert.DeserializeObject<CountryModel>(json);
+                    return country;
                 }
                 else
                 {
-                    var errorMessage = "Country not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
 
@@ -115,25 +118,28 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<CountryModel>>($"api/countries/random/{count}");
+                var response = await _httpClient.GetAsync($"api/countries/random/{count}");
 
-                if (response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var countries = JsonConvert.DeserializeObject<List<CountryModel>>(json);
+                    var random = new Random();
+                    var randomCountries = countries.OrderBy(c => random.Next()).Take(count).ToList();
+
+                    return randomCountries;
                 }
                 else
                 {
-                    var errorMessage = "Countries not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
     }

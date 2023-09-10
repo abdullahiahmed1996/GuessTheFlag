@@ -39,7 +39,9 @@ namespace GuessTheFlag.Server.Repositories
         /// <returns>En uppgift som representerar en slumpmässig FlagModel.</returns>
         public async Task<FlagModel> GetRandomFlagAsync()
         {
-            return await _context.Flags.OrderBy(f => Guid.NewGuid()).FirstOrDefaultAsync();
+            return await _context.Flags
+                .Include(f => f.Country)
+                .OrderBy(f => Guid.NewGuid()).FirstOrDefaultAsync();
         }
 
         /// <summary>

@@ -57,7 +57,7 @@ namespace GuessTheFlag.Server.Controllers
         public async Task<ActionResult<List<CountryModel>>> GetAllCountriesAsync(int count)
         {
             var allCountries = await _countryRepo.GetAllCountriesAsync(count);
-            if(allCountries==null)
+            if(allCountries == null)
             {
                 return NotFound("OOPS! Something went wrong!");
             }

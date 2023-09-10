@@ -3,7 +3,6 @@
 @inject IFlagService flagService
 @inject IUserService userService
 @inject NavigationManager navManager
-<link rel="stylesheet" href="~/css/GuessTheFlag.css"/>
 
 
 
@@ -22,17 +21,20 @@
     <div class="flag">
         @if(currentFlag != null)
         {
-            <img src="@currentFlag.ImgUrl" alt="Flag" />
+            <img src="Images/@currentFlag.ImgUrl" alt="Flag" />
         }
     </div>
     <div class="options-container">
-        @foreach (var option in options!)
+        @if(options != null){
+        @foreach (var option in options)
         {
-            <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.CountryId ?? -1) ? "correctAnswer" : "") 
-            @(wrongAnswerSelected && option.Id != (currentFlag?.CountryId ?? -1) ? "wrongAnswer" : "")"  @onclick="() => CheckAnswer(option)">
+            <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
+            @(wrongAnswerSelected && option.Id != (currentFlag?.Country.Id ?? -1) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)">
                 @option.Name
             </div>
         }
+        }
+            
     </div>
     @if (showNextButton)
     {

@@ -1,4 +1,6 @@
 ﻿using GuessTheFlag.Shared.Models;
+using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace GuessTheFlag.Client.Services
@@ -23,25 +25,29 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                // Anropa API för att hämta bestämda antal top poäng
-                var response = await _httpClient.GetFromJsonAsync<List<UserModel>>($"api/users/topscores/{count}");
+                var response = await _httpClient.GetAsync($"api/users/topscores/{count}");
 
-                if(response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
-                }else
+                    var json = await response.Content.ReadAsStringAsync();
+                    var topScores = JsonConvert.DeserializeObject<List<UserModel>>(json);
+                    return topScores;
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    _logger.LogError("No top scores found!");
+                    _logger.LogWarning("No top scores found.");
                     return new List<UserModel>();
                 }
-            }catch(HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                _logger.LogWarning($"No top scores found: {ex.Message}");
-                return new List<UserModel>();
+                else
+                {
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
+                    _logger.LogWarning(errorMessage);
+                    return new List<UserModel>();
+                }
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
-                _logger.LogWarning($"Error: {ex.StatusCode} - {ex.Message}");
+                _logger.LogError($"An error occurred: {ex.Message}");
                 return new List<UserModel>();
             }
         }
@@ -65,11 +71,10 @@ namespace GuessTheFlag.Client.Services
                 else
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Could not save your score. Status Code: {response.StatusCode}, Error: {errorMessage} ");
-
+                    throw new Exception($"Could not save your score. Status Code: {response.StatusCode}, Error: {errorMessage}");
                 }
-
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError($"Exception: {ex.Message}");
                 return 500;
