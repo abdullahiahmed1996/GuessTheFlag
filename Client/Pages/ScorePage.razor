@@ -1,5 +1,7 @@
 ﻿@page "/scorepage"
 
+@inject NavigationManager NavigationManager
+
 
 <div class="main-background">
     <img class="backgroundpic" src="Image/Background.jpg" ); alt="backgroundpic" />
@@ -16,7 +18,7 @@
                 Play again
             </button>
             <br />
-            <button type="button" class="btn-stopplaying btn-light mt-3">
+            <button @onclick="NavigateToMainPage" type=" button" class="btn-stopplaying btn-light mt-3">
                 Stop playing
             </button>
         </div>
@@ -30,7 +32,7 @@
 
     //protected override void OnInitialized()
     //{
-        // initialize here!!!!!
+    // initialize here!!!!!
     //}
 
 
@@ -42,8 +44,12 @@
 
     private void StopPlaying()
     {
-        // stop playing, open new slide or move to the head slide
+         // stop playing, open new slide or move to the head slide
         // Reset game
+    }
+    private void NavigateToMainPage() // Navigate to main page 
+    {
+        NavigationManager.NavigateTo("/");
     }
 
 }
