@@ -85,7 +85,7 @@
         {
             // Handle any unexpected exceptions
             // Log the exception for debugging
-            errorMessage = $"An error occurred: {ex.Message}";
+            errorMessage = $"An error occurred: {ex.Message}"; // ************ Den här raden ska tas bort efter development *******
             Console.WriteLine($"Exception: {ex}");
             isSavingUsername = false; // Reset the flag in case of an error
         }

@@ -59,7 +59,6 @@ namespace GuessTheFlag.Server.Repositories
             {
                 return await _context.Users
                     .Where(u => u.Username == username)
-                    .Include(u => u.Id)
                     .FirstOrDefaultAsync();
             }
             catch (Exception ex)
