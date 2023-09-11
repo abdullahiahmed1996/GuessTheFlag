@@ -10,7 +10,7 @@ namespace GuessTheFlag.Shared.Models
     public class FlagModel
     {
         public int Id { get; set; }
-        public string ImgUrl { get; set; }
+        public string? ImgUrl { get; set; }
         [ForeignKey("Country")]
         public int CountryId { get; set; }
         public CountryModel Country { get; set; }
