@@ -5,41 +5,58 @@
 @inject NavigationManager navManager
 
 
-
-<h3>Guess The Flag!</h3>
-
 <div class="game-container">
-    <div class="data-container">
-        <div class="score">
-            @($"Score: {score}")
-        </div>
-        <div class="guesses-done">
-            @($"{guessed}/{totalGuesses}")
-        </div>
-    </div>
+    <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
+    <div class="blue-box text-center">
+        <div class="data-container">
+            <div class="score">
+                @($"Score: {score}")
+               <br />
+                @($" {currentQuestion}/{ totalQuestions}")
 
-    <div class="flag">
-        @if(currentFlag != null)
-        {
-            <img src="Images/@currentFlag.ImgUrl" alt="Flag" />
-        }
-    </div>
-    <div class="options-container">
-        @if(options != null){
-        @foreach (var option in options)
-        {
-            <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
-            @(wrongAnswerSelected && option.Id != (currentFlag?.Country.Id ?? -1) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)">
-                @option.Name
             </div>
+            @* <div class="guesses-count">
+                Questions Answered: @guessed *@
+             @*    <br />
+                Questions Left: @(totalGuesses - guessed) *@
+                
+            @* </div> *@
+        </div>
+
+        <div class="flag">
+            @if (currentFlag != null)
+            {
+                <img class="flag-image" src="Images/@currentFlag.ImgUrl" alt="Flag" />
+            }
+        </div>
+        <div class="options-container">
+            @if (options != null)
+            {
+                @foreach (var option in options)
+                {
+                    @* <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
+                        @(wrongAnswerSelected && option.Id != (currentFlag?.Country.Id ?? -1) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)" @key="option.Id">
+                        @option.Name
+                    </div> *@
+
+                    <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
+                        @(IsSelectedWrongAnswer(option) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)" @key="option.Id">
+                        @option.Name
+                    </div>
+                }
+            }
+
+        </div>
+        @if (showNextButton)
+        {
+            <button @onclick="NextFlag">Next</button>
         }
-        }
-            
+        <div>
+            Total guesses: @guessed
+        </div>
     </div>
-    @if (showNextButton)
-    {
-        <button @onclick="NextFlag">Next</button>
-    }
+    
+   
 </div>
 
 
@@ -48,10 +65,14 @@
     private FlagModel? currentFlag;
     private int score = 0;
     private int guessed = 0;
-    private int totalGuesses = 10;
+    private int totalGuesses = 1000;
+    private int totalQuestions = 10;
+    private int currentQuestion = 1;
+    private int selectedWrongAnswerId = -1;
     private bool showNextButton = false;
     private bool wrongAnswerSelected = false;
     private bool correctAnswerSelected = false;
+    private bool correctAnswerGuessed = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,6 +81,8 @@
 
     private async Task LoadNextFlag()
     {
+        correctAnswerGuessed = false;
+
         // Hämta en ny flagga och slumpa alternativen 
         currentFlag = await flagService.GetRandomFlagAsync();
 
@@ -77,8 +100,14 @@
     {
         if (selectedCountry.Id == (currentFlag?.CountryId ?? -1))
         {
+            if(!correctAnswerGuessed && !wrongAnswerSelected)
+            {
+                score++;
+                correctAnswerGuessed = true;
+            }
+
             // Rätt svar ger poäng och ökar antal gissnningar
-            score++;
+            //score++;
             showNextButton = true;
             wrongAnswerSelected = false;
             correctAnswerSelected = true;
@@ -87,21 +116,41 @@
         {
             // Fel svar! Gör alternativet rött och fortsätt gissa 
             wrongAnswerSelected = true;
+            correctAnswerSelected = false;
+            selectedWrongAnswerId = selectedCountry.Id;
         }
         guessed++;
 
-        if(guessed == totalGuesses)
+        if (guessed == totalQuestions)
         {
             // Visa nästa sida 
             navManager.NavigateTo("/scorepage");
         }
 
         StateHasChanged();
+
+
     }
 
     private async Task NextFlag()
     {
+        ResetUI();
         await LoadNextFlag();
         showNextButton = false;
+        currentQuestion++;
     }
+
+    private void ResetUI()
+    {
+        correctAnswerSelected = false;
+        wrongAnswerSelected = false;
+    }
+
+    private bool IsSelectedWrongAnswer(CountryModel option)
+    {
+        // Check if the option is the selected incorrect answer
+        return option.Id == selectedWrongAnswerId;
+    }
+
+
 }
