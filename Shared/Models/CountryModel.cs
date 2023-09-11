@@ -10,6 +10,6 @@ namespace GuessTheFlag.Shared.Models
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public FlagModel? Flag { get; set; }
+        public FlagModel Flag { get; set; }
     }
 }
