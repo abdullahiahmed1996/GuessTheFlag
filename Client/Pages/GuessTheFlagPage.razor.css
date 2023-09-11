@@ -7,10 +7,10 @@
 }
 
 .wrongAnswer {
-    background-color: red; /* Change the background color to red for incorrect guesses */
-    cursor: not-allowed; /* Change the cursor to indicate that it's disabled */
-    pointer-events: none; /* Disable pointer events to prevent further interactions */
-    color: white; /* Change the text color to white for better visibility */
+    background-color: red; 
+    cursor: not-allowed; 
+    pointer-events: none; 
+    color: white; 
 }
 
 .fullscreen-image {
@@ -34,4 +34,12 @@
     width : 150px;
     height : 100px;
     margin-bottom: 5px;
+}
+
+.score{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom : 10px;
+    margin-left : 10px;
+
 }

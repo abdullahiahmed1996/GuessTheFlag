@@ -11,16 +11,10 @@
         <div class="data-container">
             <div class="score">
                 @($"Score: {score}")
-               <br />
+       
                 @($" {currentQuestion}/{ totalQuestions}")
 
             </div>
-            @* <div class="guesses-count">
-                Questions Answered: @guessed *@
-             @*    <br />
-                Questions Left: @(totalGuesses - guessed) *@
-                
-            @* </div> *@
         </div>
 
         <div class="flag">
@@ -34,11 +28,6 @@
             {
                 @foreach (var option in options)
                 {
-                    @* <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
-                        @(wrongAnswerSelected && option.Id != (currentFlag?.Country.Id ?? -1) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)" @key="option.Id">
-                        @option.Name
-                    </div> *@
-
                     <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
                         @(IsSelectedWrongAnswer(option) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)" @key="option.Id">
                         @option.Name
