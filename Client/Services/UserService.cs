@@ -75,36 +75,35 @@ namespace GuessTheFlag.Client.Services
                 return 500;
             }
         }
-<<<<<<< Updated upstream
-=======
-        public async Task<string> SaveUsernameAsync(UserModel username)
+
+        public async Task<UserModel> SaveUsernameAsync(string username)
         {
             try
             {
-                var user = new UserModel
-                {
-                    Username = username.Username
-                };
-
-                var response = await _httpClient.PostAsync($"api/users/saveusername", username);
+                var response = await _httpClient.PostAsJsonAsync("api/users/save", username);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var savedUserId = await response.Content.ReadFromJsonAsync<int>();
-                    return savedUserId;
+                    var savedUser = await response.Content.ReadFromJsonAsync<UserModel>();
+                    return savedUser;
                 }
                 else
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Could not save the username. Status Code: {response.StatusCode}, Error: {errorMessage}");
+                    _logger.LogError($"HTTP request error: {response.StatusCode} - {errorMessage}");
+                    throw new Exception(errorMessage);
                 }
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError($"HTTP request error: {ex.StatusCode} - {ex.Message}");
+                throw new Exception("An error occurred while saving the username.", ex);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception: {ex.Message}");
-                return 500; // You can handle errors as needed
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw;
             }
         }
->>>>>>> Stashed changes
     }
 }

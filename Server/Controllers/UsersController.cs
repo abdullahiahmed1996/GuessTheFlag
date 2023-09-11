@@ -47,6 +47,30 @@ namespace GuessTheFlag.Server.Controllers
             return Ok (saveScore);
         }
 
+        [HttpPost ("saveusername")]
+        public async Task<ActionResult<UserModel>> SaveUsernameAsync([FromBody] string username)
+        {
+            try
+            {
+                var savedUser = await _userRepo.SaveUsernameAsync(username);
+
+                if(savedUser != null)
+                {
+                    return Ok(savedUser);
+                }
+                else
+                {
+                    return BadRequest("Sorry! Your username could not be saved!");
+                }
+
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine($"Exception {ex.Message}");
+                return StatusCode(500, "An error apeared while saveing your username");
+            }
+        }
+
 
 
     }

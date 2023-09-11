@@ -7,9 +7,11 @@ namespace GuessTheFlag.Server.Repositories
     public class UserRepo : IUserRepo
     {
         private readonly AppDbContext _context;
-        public UserRepo(AppDbContext context)
+        private readonly ILogger<UserModel> _logger;
+        public UserRepo(AppDbContext context, ILogger<UserModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>
@@ -34,11 +36,21 @@ namespace GuessTheFlag.Server.Repositories
             return userScore.Id;
         }
 
-        public async Task <string>GetUserByUsernameAsync(UserModel username)
+       public async Task<UserModel> SaveUsernameAsync(string username)
         {
-            _context.Users.AddAsync(username);
-            await _context.SaveChangesAsync();
-            return username.Username;
+            try
+            {
+                var user = new UserModel { Username = username};
+
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return user;
+            }catch(Exception ex)
+            {
+               
+                 _logger.LogError($"Could not save the username - Exception: {ex.Message}");
+                throw;
+            }
         }
 
 

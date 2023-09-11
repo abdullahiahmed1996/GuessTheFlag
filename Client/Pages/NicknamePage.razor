@@ -1,4 +1,5 @@
 ﻿@page "/nickname"
+@using GuessTheFlag.Client.Services;
 @inject NavigationManager NavigationManager
 @inject IUserService userServices
 
@@ -34,10 +35,10 @@
                 // Save the username to the database
                 var savedUserId = await userService.SaveUsernameAsync(username);
 
-                if (savedUserId > 0)
+                if (savedUserId != null)
                 {
                     // Username saved successfully, navigate to the game page
-                    navigationManager.NavigateTo("/guesstheflag");
+                    navigationManager.NavigateTo($"/guesstheflag?username={Uri.EscapeDataString(username)}");
                 }
                 else
                 {
