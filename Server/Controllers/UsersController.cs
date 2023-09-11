@@ -47,5 +47,7 @@ namespace GuessTheFlag.Server.Controllers
             return Ok (saveScore);
         }
 
+
+
     }
 }

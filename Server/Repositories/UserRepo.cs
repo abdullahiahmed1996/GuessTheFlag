@@ -33,5 +33,14 @@ namespace GuessTheFlag.Server.Repositories
             await _context.SaveChangesAsync();
             return userScore.Id;
         }
+
+        public async Task <string>GetUserByUsernameAsync(UserModel username)
+        {
+            _context.Users.AddAsync(username);
+            await _context.SaveChangesAsync();
+            return username.Username;
+        }
+
+
     }
 }

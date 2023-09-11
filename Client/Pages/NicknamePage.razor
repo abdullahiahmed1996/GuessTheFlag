@@ -1,0 +1,62 @@
+﻿@page "/nickname"
+@inject NavigationManager NavigationManager
+@inject IUserService userServices
+
+<div class="main-background">
+    <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
+    <div class="blue-box text-center">
+        <h3 class="gtfHeader text-white">Choose your Nickname</h3>
+        <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname" @bind="username">
+        <button type="button" class="btn btn-light" @onclick="SaveUsername">
+            Start
+        </button>
+    </div>
+</div>
+
+@code {
+    private string username;
+    private string errorMessage;
+
+    [Inject]
+    private IUserService userService { get; set; }
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; }
+
+    private async Task SaveUsername()
+    {
+        try
+        {
+            errorMessage = ""; // Clear any previous error messages
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                // Save the username to the database
+                var savedUserId = await userService.SaveUsernameAsync(username);
+
+                if (savedUserId > 0)
+                {
+                    // Username saved successfully, navigate to the game page
+                    navigationManager.NavigateTo("/guesstheflag");
+                }
+                else
+                {
+                    // Handle errors or display an error message
+                    errorMessage = "Username could not be saved.";
+                }
+            }
+            else
+            {
+                // Handle validation or display an error message for an empty username
+                errorMessage = "Please enter a username.";
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any unexpected exceptions
+            // Log the exception for debugging
+            errorMessage = $"An error occurred: {ex.Message}";
+            Console.WriteLine($"Exception: {ex}");
+        }
+    }
+}
