@@ -18,6 +18,7 @@
                 <span>Start</span>
             }
         </button>
+        <div class="text-danger">@errorMessage</div>
     </div>
 </div>
 
@@ -42,18 +43,29 @@
             {
                 isSavingUsername = true; // Set the flag to block further attempts
 
-                // Save the username to the database
-                var savedUser = await userService.SaveUsernameAsync(username);
+                // Check if the username already exists
+                var isUsernameTaken = await userService.IsUsernameTakenAsync(username);
 
-                if (savedUser != null)
+                if (!isUsernameTaken)
                 {
-                    // Username saved successfully, navigate to the game page
-                    navigationManager.NavigateTo($"/guesstheflag?username={Uri.EscapeDataString(username)}");
+                    // Save the username to the database
+                    var savedUser = await userService.SaveUsernameAsync(username);
+
+                    if (savedUser != null)
+                    {
+                        // Username saved successfully, navigate to the game page
+                        navigationManager.NavigateTo($"/guesstheflag?username={Uri.EscapeDataString(username)}");
+                    }
+                    else
+                    {
+                        // Handle errors or display an error message
+                        errorMessage = "Username could not be saved.";
+                    }
                 }
                 else
                 {
-                    // Handle errors or display an error message
-                    errorMessage = "Username could not be saved.";
+                    // Handle the case where the username is already taken
+                    errorMessage = "Username is already taken. Please choose another.";
                 }
 
                 isSavingUsername = false; // Reset the flag after processing

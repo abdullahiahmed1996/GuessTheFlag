@@ -37,7 +37,7 @@ namespace GuessTheFlag.Server.Repositories
         }
 
        public async Task<UserModel> SaveUsernameAsync(string username)
-        {
+       {
             try
             {
                 var user = new UserModel { Username = username};
@@ -50,6 +50,22 @@ namespace GuessTheFlag.Server.Repositories
                
                  _logger.LogError($"Could not save the username - Exception: {ex.Message}");
                 throw;
+            }
+       }
+
+        public async Task<UserModel?> GetByUsernameAsync(string username)
+        {
+            try
+            {
+                return await _context.Users
+                    .Where(u => u.Username == username)
+                    .Include(u => u.Id)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception($"Error getting user by username: {ex.Message}");
             }
         }
 

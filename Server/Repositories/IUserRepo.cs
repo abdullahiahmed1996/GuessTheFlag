@@ -8,5 +8,6 @@ namespace GuessTheFlag.Server.Repositories
         Task<List<UserModel>> GetTopScoresAsync(int count);
 
         Task<UserModel> SaveUsernameAsync(string username);
+        Task<UserModel?> GetByUsernameAsync(string username);
     }
 }

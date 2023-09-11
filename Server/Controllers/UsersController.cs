@@ -71,7 +71,12 @@ namespace GuessTheFlag.Server.Controllers
             }
         }
 
-
+        [HttpGet("isUsernameTaken/{username}")]
+        public async Task<bool> IsUsernameTakenAsync(string username)
+        {
+            var user = await _userRepo.GetByUsernameAsync(username);
+            return user != null;
+        }
 
     }
 }
