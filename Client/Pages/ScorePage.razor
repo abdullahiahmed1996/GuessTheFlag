@@ -18,7 +18,7 @@
                 Play again
             </button>
             <br />
-            <button @onclick="NavigateToMainPage" type=" button" class="btn-stopplaying btn-light mt-3">
+            <button @onklick="PlayAgain" type=" button" class="btn-stopplaying btn-light mt-3">
                 Stop playing
             </button>
         </div>
@@ -38,18 +38,16 @@
 
     private void PlayAgain()
     {
-        // restart game here 
+        NavigationManager.NavigateTo("/");
+
+        // restart game here, navigera till guessthe flag sida 
         // go to play page  
     }
 
     private void StopPlaying()
     {
-         // stop playing, open new slide or move to the head slide
+        // stop playing, open new slide or move to the head slide, index sidan.
         // Reset game
     }
-    private void NavigateToMainPage() // Navigate to main page 
-    {
-        NavigationManager.NavigateTo("/");
-    }
-
+    // hämta score från databas och displaya. metod.
 }
