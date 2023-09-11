@@ -1,5 +1,6 @@
 ﻿@page "/nickname"
 @inject NavigationManager NavigationManager
+@inject UserModel UserModel 
 
 
 <div class="main-background">
@@ -9,7 +10,7 @@
     <div class="blue-box text-center">
         <h3 class="gtfHeader text-white">Choose your Nickname</h3>
         <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname">
-        <button @onclick="NavigateToStart" type="button" class="btn btn-light ">
+        <button @onclick="UserModel" type="button" class="btn btn-light ">
             Start
         </button>
 

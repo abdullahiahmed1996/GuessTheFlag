@@ -34,7 +34,7 @@ namespace GuessTheFlag.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
 
                     b.HasData(
                         new
@@ -1049,7 +1049,7 @@ namespace GuessTheFlag.Server.Migrations
                     b.HasIndex("CountryId")
                         .IsUnique();
 
-                    b.ToTable("Flags");
+                    b.ToTable("Flags", (string)null);
 
                     b.HasData(
                         new
@@ -2258,7 +2258,7 @@ namespace GuessTheFlag.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("GuessTheFlag.Shared.Models.FlagModel", b =>
