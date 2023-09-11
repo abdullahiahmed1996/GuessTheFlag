@@ -1,4 +1,5 @@
 ﻿using GuessTheFlag.Shared.Models;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
 
 namespace GuessTheFlag.Client.Services
@@ -10,7 +11,7 @@ namespace GuessTheFlag.Client.Services
 
         public FlagService(ILogger<FlagService> logger, HttpClient httpClient)
         {
-            _httpClient= httpClient;
+            _httpClient = httpClient;
             _logger = logger;
         }
 
@@ -23,25 +24,25 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<FlagModel>>($"api/flags/{count}");
-                
-                if(response != null)
+                var response = await _httpClient.GetAsync($"api/flags/{count}");
+
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var flags = JsonConvert.DeserializeObject<List<FlagModel>>(json);
+                    return flags;
                 }
                 else
                 {
-                    var errorMessage = "No flags found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
-                }           
-
-
-            }catch(HttpRequestException ex) 
+                }
+            }
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
 
@@ -54,53 +55,55 @@ namespace GuessTheFlag.Client.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<FlagModel>($"api/flags/{id}");
+                var response = await _httpClient.GetAsync($"api/flags/{id}");
 
-                if (response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var flag = JsonConvert.DeserializeObject<FlagModel>(json);
+                    return flag;
                 }
                 else
                 {
-                    var errorMessage = "The flag was not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-            }catch(HttpRequestException ex)
+            }
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
 
         /// <summary>
-        /// Hämtar ett angivet antal slumpmässiga flaggor från API:et.
+        /// Hämtar en slumpmässig flagga från API:et.
         /// </summary>
-        /// <param name="count">Antal slumpmässiga flaggor att hämta.</param>
-        /// <returns>En uppgift som representerar en lista av slumpmässiga FlagModel-objekt.</returns>
-        public async Task<List<FlagModel>> GetRandomFlagsAsync(int count)
+        /// <returns>En uppgift som representerar en slumpmässig FlagModel-objekt.</returns>
+        public async Task<FlagModel> GetRandomFlagAsync()
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<FlagModel>>($"api/flags/random/{count}");
+                var response = await _httpClient.GetAsync($"api/flags/random");
 
-                if (response != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return response;
+                    var json = await response.Content.ReadAsStringAsync();
+                    var flag = JsonConvert.DeserializeObject<FlagModel>(json);
+                    return flag;
                 }
                 else
                 {
-                    var errorMessage = "Random flags were not found!";
+                    var errorMessage = $"HTTP request error: {response.StatusCode} - {response.ReasonPhrase}";
                     _logger.LogError(errorMessage);
                     throw new Exception(errorMessage);
                 }
-
-            }catch(HttpRequestException ex)
+            }
+            catch (Exception ex)
             {
-                var errorMessage = $"HTTP request error: {ex.StatusCode} - {ex.Message}";
-                _logger.LogError(errorMessage);
-                throw new Exception(errorMessage);
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw ex;
             }
         }
     }

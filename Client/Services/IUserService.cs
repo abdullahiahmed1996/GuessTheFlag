@@ -6,5 +6,6 @@ namespace GuessTheFlag.Client.Services
     {
         Task<List<UserModel>> GetTopScoresAsync(int count);
         Task<int> SaveScoreAsync(UserModel userScore);
+        Task<int> SaveUsernameAsync(string username);
     }
 }

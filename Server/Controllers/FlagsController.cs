@@ -49,19 +49,18 @@ namespace GuessTheFlag.Server.Controllers
         }
 
         /// <summary>
-        /// Hämtar ett angivet antal slumpmässiga flaggor i en lista.
+        /// Hämtar en slumpmässig flagga.
         /// </summary>
-        /// <param name="count">Antal slumpmässiga flaggor att hämta.</param>
-        /// <returns>En uppgift som representerar en lista av slumpmässiga flaggmodeller.</returns>
-        [HttpGet ("random/{count}")]
-        public async Task<ActionResult<List<FlagModel>>> GetRandomFlagsAsync(int count)
+        /// <returns>En uppgift som representerar en slumpmässig FlagModel.</returns>
+        [HttpGet("random")]
+        public async Task<ActionResult<FlagModel>> GetRandomFlagAsync()
         {
-            var randomCountries = await _flagRepo.GetRandomFlagsAsync(count);
-            if(randomCountries == null)
+            var randomFlag = await _flagRepo.GetRandomFlagAsync();
+            if (randomFlag == null)
             {
                 return NotFound("No flags found!");
             }
-            return Ok(randomCountries);
+            return Ok(randomFlag);
         }
     }
 }

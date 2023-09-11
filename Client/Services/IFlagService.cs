@@ -6,6 +6,6 @@ namespace GuessTheFlag.Client.Services
     {
         Task<FlagModel> GetFlagByIdAsync(int id);
         Task<List<FlagModel>> GetAllFlagsAsync(int count);
-        Task<List<FlagModel>> GetRandomFlagsAsync(int count);
+        Task<FlagModel> GetRandomFlagAsync();
     }
 }
