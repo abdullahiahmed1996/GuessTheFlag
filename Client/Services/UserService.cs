@@ -80,5 +80,33 @@ namespace GuessTheFlag.Client.Services
                 return 500;
             }
         }
+        public async Task<int> SaveUsernameAsync(string username)
+        {
+            try
+            {
+                var user = new UserModel
+                {
+                    Username = username
+                };
+
+                var response = await _httpClient.PostAsJsonAsync("api/users/saveusername", user);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var savedUserId = await response.Content.ReadFromJsonAsync<int>();
+                    return savedUserId;
+                }
+                else
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Could not save the username. Status Code: {response.StatusCode}, Error: {errorMessage}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception: {ex.Message}");
+                return 500; // You can handle errors as needed
+            }
+        }
     }
 }

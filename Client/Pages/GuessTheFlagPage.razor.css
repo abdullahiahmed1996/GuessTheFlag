@@ -3,14 +3,21 @@
 }
 
 .correctAnswer {
-    color: green;
+    background-color: green;
+    margin-left: 10px;
+    margin-right: 10px;
+    pointer-events: none;
+    cursor: not-allowed;
+    color: white;
 }
 
 .wrongAnswer {
-    background-color: red; 
-    cursor: not-allowed; 
-    pointer-events: none; 
-    color: white; 
+    background-color: red;
+    cursor: not-allowed;
+    margin-left: 10px;
+    margin-right: 10px;
+    pointer-events: none;
+    color: white;
 }
 
 .fullscreen-image {
@@ -41,5 +48,16 @@
     justify-content: space-between;
     margin-bottom : 10px;
     margin-left : 10px;
+    /*color: white;*/
+}
+.questions-container {
+    justify-content : flex-end;
+    margin-right: 10px;
+}
+.options-container {
+    
+}
 
+.guess-container {
+    
 }
