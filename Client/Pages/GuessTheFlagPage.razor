@@ -53,6 +53,7 @@
 @code {
     private List<CountryModel>? options;
     private FlagModel? currentFlag;
+    private string username;
     private int score = 0;
     private int guessed = 0;
     private int totalGuesses = 1000;
@@ -67,6 +68,9 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadNextFlag();
+        var uri = new Uri(navManager.Uri);
+        var queryString = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        username = queryString["username"];
     }
 
     private async Task LoadNextFlag()
@@ -114,7 +118,7 @@
         if (currentQuestion == 10)
         {
             // Visa nästa sida 
-            navManager.NavigateTo("/score");
+            navManager.NavigateTo($"/score?username={Uri.EscapeDataString(username)}&score={score}");
         }
 
         StateHasChanged();
