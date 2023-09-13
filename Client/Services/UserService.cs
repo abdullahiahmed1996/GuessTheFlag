@@ -8,6 +8,7 @@ namespace GuessTheFlag.Client.Services
         private readonly HttpClient _httpClient;
         private readonly ILogger<UserService> _logger;
 
+
         public UserService(HttpClient httpClient, ILogger<UserService> logger)
         {
             _httpClient= httpClient;
