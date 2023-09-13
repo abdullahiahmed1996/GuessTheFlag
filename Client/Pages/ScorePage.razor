@@ -10,7 +10,7 @@
         <br />
        <div class="print-points">
             <label class="text-white">
-                Points: @score
+                Your Score: @score
             </label>
        </div>
         <div class="buttons">
@@ -41,23 +41,31 @@
     }
 
 
+    private async Task SaveScore()
+    {
+        try
+        {
+            var savedScore = new UserModel { Username = username, Score = score };
+            await userService.SaveScoreAsync(savedScore);
+
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"The score was not saved! Exception: {ex.Message}");
+        }
+    }
+
     private void PlayAgain()
     {
-        navManager.NavigateTo("/guesstheflag"); // navigera till startsidan guess the flag
-
-
-
-        // restart game here,  
-        // go to play page  
+        SaveScore();
+        navManager.NavigateTo($"/guesstheflag?username={Uri.EscapeDataString(username)}"); // navigera till startsidan guess the flag
+        
     }
 
     private void StopPlaying()
     {
+        SaveScore();
         navManager.NavigateTo("/");
-
-        // stop playing, open new slide or move to the head slide, index sidan.
-        // Reset game
     }
 
-    // hämta score från databas och displaya. metod.
 }
