@@ -1,6 +1,6 @@
-﻿@page "/scorepage"
+﻿@page "/score"
 @inject IUserService userService
-@inject NavigationManager NavigationManager
+@inject NavigationManager navManager
 
 
 <div class="main-background">
@@ -10,7 +10,7 @@
         <br />
        <div class="print-points">
             <label class="text-white">
-                Points: @Score
+                Points: @score
             </label>
        </div>
         <div class="buttons">
@@ -28,18 +28,22 @@
 
 
 @code {
-    private int Score { get; set; } = 0;
-    
+    private int score;
+    private string username; 
 
-    //protected override async Task OnInitializedAsync() 
-    //{
-    //    Score = await userService.SaveScoreAsync();
-    //}
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(navManager.Uri);
+        var queryString = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        username = queryString["username"];
+        score = int.Parse(queryString["score"]);
+    }
 
 
     private void PlayAgain()
     {
-        NavigationManager.NavigateTo("/guesstheflag"); // navigera till startsidan guess the flag
+        navManager.NavigateTo("/guesstheflag"); // navigera till startsidan guess the flag
 
 
 
@@ -49,7 +53,7 @@
 
     private void StopPlaying()
     {
-        NavigationManager.NavigateTo("/");
+        navManager.NavigateTo("/");
 
         // stop playing, open new slide or move to the head slide, index sidan.
         // Reset game
