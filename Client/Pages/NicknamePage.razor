@@ -1,25 +1,31 @@
 ﻿@page "/nickname"
+@using GuessTheFlag.Client.Services;
 @inject NavigationManager NavigationManager
-
-
+@inject IUserService userServices
 
 <div class="main-background">
-
     <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
-
     <div class="blue-box text-center">
         <h3 class="gtfHeader text-white">Choose your Nickname</h3>
-        <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname">
-        <button type="button" class="btn btn-light" @onclick="SaveUsername">
-            Start
+        <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname" @bind="username">
+        <button type="button" class="btn btn-light" @onclick="SaveUsername" disabled="@isSavingUsername">
+            @if (isSavingUsername)
+            {
+                <span>Saving...</span>
+            }
+            else
+            {
+                <span>Start</span>
+            }
         </button>
-
+        <div class="text-danger error-message">@errorMessage</div>
     </div>
 </div>
 
-
 @code {
     private string username;
+    private string errorMessage;
+    private bool isSavingUsername = false;
 
     [Inject]
     private IUserService userService { get; set; }
@@ -29,35 +35,59 @@
 
     private async Task SaveUsername()
     {
-  
-            if (!string.IsNullOrEmpty(username))
-            {
-                // Save the username to the database
-                var savedUserId = await userService.SaveUsernameAsync(username);
+        try
+        {
+            errorMessage = ""; // Clear any previous error messages
 
-                if (savedUserId > 0)
+            if (!string.IsNullOrEmpty(username) && !isSavingUsername)
+            {
+                isSavingUsername = true; // Set the flag to block further attempts
+
+                // Check if the username already exists
+                var isUsernameTaken = await userService.IsUsernameTakenAsync(username);
+
+                if (!isUsernameTaken)
                 {
-                    // Username saved successfully, navigate to the game page
-                    navigationManager.NavigateTo("/guesstheflag");
+                    // Save the username to the database
+                    var savedUser = await userService.SaveUsernameAsync(username);
+
+                    if (savedUser != null)
+                    {
+                        // Username saved successfully, navigate to the game page
+                        navigationManager.NavigateTo($"/guesstheflag?username={Uri.EscapeDataString(username)}");
+                    }
+                    else
+                    {
+                        // Handle errors or display an error message
+                        errorMessage = "Username could not be saved.";
+                    }
                 }
                 else
                 {
-                    // Handle errors or display an error message
+                    // Handle the case where the username is already taken
+                    errorMessage = "Username is already taken. Please choose another.";
                 }
+
+                isSavingUsername = false; // Reset the flag after processing
+            }
+            else if (isSavingUsername)
+            {
+                // Display a message indicating that saving is in progress
+                errorMessage = "Saving is in progress...";
             }
             else
             {
-                // Handle validation or display an error message for empty username
+                // Handle validation or display an error message for an empty username
+                errorMessage = "Please enter a username.";
             }
-       
-    
-
- 
-
-    // private void NavigateToStart()
-    // {
-    //     NavigationManager.NavigateTo("/guesstheflag");
-    // }
+        }
+        catch (Exception ex)
+        {
+            // Handle any unexpected exceptions
+            // Log the exception for debugging
+            errorMessage = $"An error occurred: {ex.Message}"; // ************ Den här raden ska tas bort efter development *******
+            Console.WriteLine($"Exception: {ex}");
+            isSavingUsername = false; // Reset the flag in case of an error
+        }
     }
-
 }
