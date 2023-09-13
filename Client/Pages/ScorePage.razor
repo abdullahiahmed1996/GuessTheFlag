@@ -1,24 +1,24 @@
 ﻿@page "/scorepage"
-
+@inject IUserService userService
 @inject NavigationManager NavigationManager
 
 
 <div class="main-background">
-    <img class="backgroundpic" src="Image/Background.jpg" ); alt="backgroundpic" />
+    <img class="backgroundpic" src="Images/Background.jpg" ); alt="backgroundpic" />
     <div class="blue-box text-center">
         <h1 class="gtfHeader text-white">Your Score:</h1>
         <br />
        <div class="print-points">
             <label class="text-white">
-                Points
+                Points: @Score
             </label>
        </div>
         <div class="buttons">
-            <button type="button" class="btn-play btn-light ">
+            <button @onclick="PlayAgain" type="button" class="btn-play btn-light ">
                 Play again
             </button>
             <br />
-            <button @onklick="PlayAgain" type=" button" class="btn-stopplaying btn-light mt-3">
+            <button @onclick="StopPlaying" type="button" class="btn-stopplaying btn-light mt-3">
                 Stop playing
             </button>
         </div>
@@ -29,25 +29,31 @@
 
 @code {
     private int Score { get; set; } = 0;
+    
 
-    //protected override void OnInitialized()
+    //protected override async Task OnInitializedAsync() 
     //{
-    // initialize here!!!!!
+    //    Score = await userService.SaveScoreAsync();
     //}
 
 
     private void PlayAgain()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/guesstheflag"); // navigera till startsidan guess the flag
 
-        // restart game here, navigera till guessthe flag sida 
+
+
+        // restart game here,  
         // go to play page  
     }
 
     private void StopPlaying()
     {
+        NavigationManager.NavigateTo("/");
+
         // stop playing, open new slide or move to the head slide, index sidan.
         // Reset game
     }
+
     // hämta score från databas och displaya. metod.
 }
