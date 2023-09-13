@@ -1,8 +1,6 @@
 ﻿@page "/leaderboard"
 @inject NavigationManager NavigationManager
-
-
-
+@inject IUserService userService
 
 <div class="main-background">
     
@@ -11,7 +9,10 @@
     <div class="blue-box text-center">
         <h1 class="gtfHeader text-white">Leaderboard</h1>
         <ol>
-
+            @foreach (var userScore in topScores)
+            {
+                <li>@userScore.Username - Score: @userScore.Score</li>
+            }
         </ol>
         <button @onclick="NavigateToMainPage" type="button" class="btn btn-light ">
             Play
@@ -21,6 +22,13 @@
 </div>
 
 @code {
+
+    private List<UserModel> topScores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        topScores = await userService.GetTopScoresAsync(5);
+    }
 
     private void NavigateToMainPage()
     {

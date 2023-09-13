@@ -27,15 +27,17 @@ namespace GuessTheFlag.Client.Services
                 // Anropa API för att hämta bestämda antal top poäng
                 var response = await _httpClient.GetFromJsonAsync<List<UserModel>>($"api/users/topscores/{count}");
 
-                if(response != null)
+                if (response != null)
                 {
                     return response;
-                }else
+                }
+                else
                 {
                     _logger.LogError("No top scores found!");
                     return new List<UserModel>();
                 }
-            }catch(HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 _logger.LogWarning($"No top scores found: {ex.Message}");
                 return new List<UserModel>();
@@ -46,6 +48,7 @@ namespace GuessTheFlag.Client.Services
                 return new List<UserModel>();
             }
         }
+
 
         /// <summary>
         /// Sparar en användares poäng i API:et.
