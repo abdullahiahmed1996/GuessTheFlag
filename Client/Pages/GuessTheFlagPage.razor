@@ -111,10 +111,10 @@
         }
         guessed++;
 
-        if (guessed == totalQuestions)
+        if (currentQuestion == 10)
         {
             // Visa nästa sida 
-            navManager.NavigateTo("/scorepage");
+            navManager.NavigateTo("/score");
         }
 
         StateHasChanged();
