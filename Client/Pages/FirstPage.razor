@@ -13,9 +13,13 @@
             Play
         </button>
             <br>
-            <button @onclick="NavigateToLeaderboard" type="button" class="btn btn-light mt-3">
+            <button @onclick="NavigateToLeaderboard" type="button" class="btn btn-light mt-2">
                 Leaderboard
             </button>
+            <br />
+        <button @onclick="NavigateToInstructions" type="button" class="btn btn-light mt-2">
+            Instructions
+        </button>
         </div>
     </body>
 
@@ -37,5 +41,10 @@
     private void NavigateToPlay()
     {
         NavigationManager.NavigateTo("/nickname");
+    }
+
+    private void NavigateToInstructions()
+    {
+        NavigationManager.NavigateTo("/instructions");
     }
 }

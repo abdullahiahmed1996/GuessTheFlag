@@ -3,34 +3,35 @@
 }
 
 .correctAnswer {
-    background-color: green;
+    
     margin-left: 10px;
     margin-right: 10px;
     pointer-events: none;
     cursor: not-allowed;
-    color: white;
+    color: limegreen;
 }
 
 .wrongAnswer {
-    background-color: red;
     cursor: not-allowed;
     margin-left: 10px;
     margin-right: 10px;
     pointer-events: none;
-    color: white;
+    color: red;
 }
 
 .fullscreen-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    display: block;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 .blue-box {
-    background-color: #1D5174; /* Blue box background color */
-    width: 300px; /* Adjust the width as needed */
-    height: 300px; /* Adjust the height as needed */
+    background-color: floralwhite; /* Blue box background color */
+    width: 250px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
     position: absolute; /* Position the box relative to the parent */
-    top: 50%; /* Center the box vertically */
+    top: 45%; /* Center the box vertically */
     left: 50%; /* Center the box horizontally */
     transform: translate(-50%, -50%); /* Center the box precisely */
     border: 2px solid white; /* Add a white border if desired */
@@ -38,9 +39,10 @@
 }
 
 .flag-image {
-    width : 150px;
-    height : 100px;
-    margin-bottom: 5px;
+    width: 150px;
+    height: 100px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .score{
@@ -54,8 +56,11 @@
     justify-content : flex-end;
     margin-right: 10px;
 }
+
+#nextBtn{
+    margin-top: 10px;
+}
 .options-container {
-    
 }
 
 .guess-container {

@@ -4,10 +4,21 @@
 .main-background {
 }
 
+.gtfHeader {
+    margin-top: 20px;
+}
+
 .fullscreen-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    display: block;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#nickname {
+    width: 220px;
+    margin-left: 14px;
 }
 
 
@@ -21,8 +32,8 @@
 
 .blue-box {
     background-color: darkcyan; /* Blue box background color */
-    width: 200px; /* Adjust the width as needed */
-    height: 300px; /* Adjust the height as needed */
+    width: 250px; /* Adjust the width as needed */
+    height: 350px; /* Adjust the height as needed */
     position: absolute; /* Position the box relative to the parent */
     top: 45%; /* Center the box vertically */
     left: 50%; /* Center the box horizontally */

@@ -12,7 +12,7 @@
             <div class="score">
                 @($"Score: {score}")
                 <div class="questions-container">
-                    @($" {currentQuestion}/{totalQuestions}")
+                    @($" Current flag: {currentQuestion}/{totalQuestions}")
                 </div>
             </div>
             
@@ -39,9 +39,9 @@
         </div>
         @if (showNextButton)
         {
-            <button @onclick="NextFlag">Next</button>
+            <button class="btn btn-success" id="nextBtn" @onclick="NextFlag">Next</button>
         }
-        <div class="guess-container">
+        <div class="guess-container mt-3">
             Total guesses: @guessed
         </div>
     </div>
