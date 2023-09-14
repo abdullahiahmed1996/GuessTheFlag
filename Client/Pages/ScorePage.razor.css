@@ -1,0 +1,87 @@
+﻿/*.card-container{
+        display: flex;
+        justify-content:center;
+        align-items:center;
+        height:75vh;
+        color: gray;
+    }
+    .card{
+        width:400px;
+        height: 400px;
+        background-color: blue;
+        border-radius: 20px;
+        color: white;
+        text-align: center;
+    }
+    .card-body{
+        display: flex;
+        justify-content:center;
+    }
+
+    #scoreTextbox{
+        color: white;
+    }
+    
+    .card-score{
+        display: flex;
+        flex-direction:column;
+        justify-content: space-around;
+        font-size:65px;
+    }
+
+    .buttons{
+        display:flex;
+        justify-content: space-around;
+    }
+
+    .play-again-btn,
+    .stop-playing-btn{
+        padding: 5px;
+        border: none;
+        background-color:white;
+        color: black;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top:20px;
+    }
+
+    .background{
+        max-width:100%;
+        padding:0 0 0 0;
+        background-color:aliceblue;
+        background-image: url('image\background.jpg');
+        background-size: cover;
+        background-repeat:no-repeat;
+    }*/
+
+.mainbody {
+}
+
+.main-background {
+    display:flex;
+}
+
+.backgroundpic{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.blue-box {
+    background-color: darkcyan;
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid white;
+}
+
+.gtfHeader {
+    font-size: 40px;
+}
+
+.buttons {
+    margin-top: 200px;
+}

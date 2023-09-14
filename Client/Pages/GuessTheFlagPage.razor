@@ -1,0 +1,150 @@
+﻿@page "/guesstheflag"
+@inject ICountryService countryService
+@inject IFlagService flagService
+@inject IUserService userService
+@inject NavigationManager navManager
+
+
+<div class="game-container">
+    <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
+    <div class="blue-box text-center">
+        <div class="data-container">
+            <div class="score">
+                @($"Score: {score}")
+                <div class="questions-container">
+                    @($" {currentQuestion}/{totalQuestions}")
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="flag">
+            @if (currentFlag != null)
+            {
+                <img class="flag-image" src="Images/@currentFlag.ImgUrl" alt="Flag" />
+            }
+        </div>
+        <div class="options-container">
+            @if (options != null)
+            {
+                @foreach (var option in options)
+                {
+                    <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
+                        @(IsSelectedWrongAnswer(option) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)" @key="option.Id">
+                        @option.Name
+                    </div>
+                }
+            }
+
+        </div>
+        @if (showNextButton)
+        {
+            <button @onclick="NextFlag">Next</button>
+        }
+        <div class="guess-container">
+            Total guesses: @guessed
+        </div>
+    </div>
+    
+   
+</div>
+
+
+@code {
+    private List<CountryModel>? options;
+    private FlagModel? currentFlag;
+    private string username;
+    private int score = 0;
+    private int guessed = 0;
+    private int totalGuesses = 1000;
+    private int totalQuestions = 10;
+    private int currentQuestion = 1;
+    private int selectedWrongAnswerId = -1;
+    private bool showNextButton = false;
+    private bool wrongAnswerSelected = false;
+    private bool correctAnswerSelected = false;
+    private bool correctAnswerGuessed = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNextFlag();
+        var uri = new Uri(navManager.Uri);
+        var queryString = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        username = queryString["username"];
+    }
+
+    private async Task LoadNextFlag()
+    {
+        correctAnswerGuessed = false;
+
+        // Hämta en ny flagga och slumpa alternativen 
+        currentFlag = await flagService.GetRandomFlagAsync();
+
+        // Hämta 4 slumpmässiga länder
+        var countries = await countryService.GetRandomCountriesAsync(3);
+
+        // Lägg till rätta landet till flaggan bland alternativen
+        countries.Add(currentFlag.Country);
+
+        // Slumpa alternativen 
+        options = countries.OrderBy(c => Guid.NewGuid()).ToList();
+    }
+
+    private  void CheckAnswer(CountryModel selectedCountry)
+    {
+        if (selectedCountry.Id == (currentFlag?.CountryId ?? -1))
+        {
+            if(!correctAnswerGuessed && !wrongAnswerSelected)
+            {
+                score++;
+                correctAnswerGuessed = true;
+            }
+
+            // Rätt svar ger poäng och ökar antal gissnningar
+            //score++;
+            showNextButton = true;
+            wrongAnswerSelected = false;
+            correctAnswerSelected = true;
+        }
+        else
+        {
+            // Fel svar! Gör alternativet rött och fortsätt gissa 
+            wrongAnswerSelected = true;
+            correctAnswerSelected = false;
+            selectedWrongAnswerId = selectedCountry.Id;
+        }
+        guessed++;
+
+        if (currentQuestion == 10)
+        {
+            // Visa nästa sida 
+            navManager.NavigateTo($"/score?username={Uri.EscapeDataString(username)}&score={score}");
+        }
+
+        StateHasChanged();
+
+
+    }
+
+    private async Task NextFlag()
+    {
+        ResetUI();
+        await LoadNextFlag();
+        showNextButton = false;
+        currentQuestion++;
+    }
+
+    private void ResetUI()
+    {
+        correctAnswerSelected = false;
+        wrongAnswerSelected = false;
+    }
+
+    private bool IsSelectedWrongAnswer(CountryModel option)
+    {
+        // Check if the option is the selected incorrect answer
+        return option.Id == selectedWrongAnswerId;
+    }
+
+
+}

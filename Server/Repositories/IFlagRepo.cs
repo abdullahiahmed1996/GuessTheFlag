@@ -7,7 +7,7 @@ namespace GuessTheFlag.Server.Repositories
             
         Task<List<FlagModel>> GetAllFlagsAsync(int count);
         Task<FlagModel> GetFlagByIdAsync(int id);
-        Task<List<FlagModel>> GetRandomFlagsAsync(int count);
+        Task<FlagModel> GetRandomFlagAsync();
         Task<FlagModel> UpdateFlagAsync(FlagModel flag);
 
     

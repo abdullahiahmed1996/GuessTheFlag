@@ -75,5 +75,65 @@ namespace GuessTheFlag.Client.Services
                 return 500;
             }
         }
+
+        public async Task<UserModel> SaveUsernameAsync(string username)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/users/saveusername", username);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var savedUser = await response.Content.ReadFromJsonAsync<UserModel>();
+                    return savedUser;
+                }
+                else
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    _logger.LogError($"HTTP request error: {response.StatusCode} - {errorMessage}");
+                    throw new Exception(errorMessage);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError($"HTTP request error: {ex.StatusCode} - {ex.Message}");
+                throw new Exception("An error occurred while saving the username.", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<bool> IsUsernameTakenAsync(string username)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/users/isUsernameTaken/{username}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return string.Equals(content, "true", StringComparison.OrdinalIgnoreCase);
+                }
+                else
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    _logger.LogError($"HTTP request error: {response.StatusCode} - {errorMessage}");
+                    throw new Exception(errorMessage);
+                   
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError($"HTTP request error: {ex.StatusCode} - {ex.Message}");
+                throw new Exception("An error occurred while finding username.", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred: {ex.Message}");
+                throw;
+            }
+        }
     }
 }
