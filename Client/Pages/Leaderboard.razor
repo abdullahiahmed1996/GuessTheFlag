@@ -8,12 +8,27 @@
 
     <div class="blue-box text-center">
         <h1 class="gtfHeader text-white">Leaderboard</h1>
-        <ol>
+        @* <ol>
             @foreach (var userScore in topScores)
             {
                 <li>@userScore.Username - Score: @userScore.Score</li>
             }
-        </ol>
+        </ol> *@
+
+        @if (topScores != null && topScores.Any())
+        {
+            <ol>
+                @foreach (var userScore in topScores)
+                {
+                    <li>@userScore.Username - Score: @userScore.Score</li>
+                }
+            </ol>
+        }
+        else
+        {
+            <p>No top scores found.</p>
+        }
+
         <button @onclick="NavigateToMainPage" type="button" class="btn btn-light ">
             Play
         </button>
@@ -27,7 +42,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        topScores = await userService.GetTopScoresAsync(5);
+        
+
+        try
+        {
+            topScores = await userService.GetTopScoresAsync(5);
+
+            if (topScores == null || !topScores.Any())
+            {
+                
+                topScores = new List<UserModel>();
+            }
+        }
+        catch (Exception ex)
+        {
+            
+            Console.WriteLine($"Error fetching top scores: {ex.Message}");
+            topScores = new List<UserModel>(); 
+        }
+
     }
 
     private void NavigateToMainPage()
