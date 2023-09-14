@@ -1,17 +1,13 @@
-.mainbody {
-    
-}
-.main-background {
 
-   
+.main-background {
+    background-color: #0074BD;
 }
 
 .fullscreen-image {
     display: block;
-    margin-top: 100px;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    max-width: 60%;
 
 }
 .blue-box {
@@ -19,7 +15,7 @@
   width: 250px; /* Adjust the width as needed */
   height: 350px; /* Adjust the height as needed */
   position: absolute; /* Position the box relative to the parent */
-  top: 45%; /* Center the box vertically */
+  top: 47%; /* Center the box vertically */
   left: 50%; /* Center the box horizontally */
   transform: translate(-50%, -50%); /* Center the box precisely */
   border: 2px solid white; /* Add a white border if desired */
@@ -27,7 +23,8 @@
 }
 
 .gtfHeader {
-    font-size: 40px;
+    margin-top: 10px;
+    font-size: 36px;
 }
 
 p {

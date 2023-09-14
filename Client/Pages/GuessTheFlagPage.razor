@@ -19,6 +19,7 @@
         </div>
 
         <div class="flag">
+            <hr />
             @if (currentFlag != null)
             {
                 <img class="flag-image" src="Images/@currentFlag.ImgUrl" alt="Flag" />
@@ -39,9 +40,11 @@
         </div>
         @if (showNextButton)
         {
+            <hr />
             <button class="btn btn-success" id="nextBtn" @onclick="NextFlag">Next</button>
         }
-        <div class="guess-container mt-3">
+        <div class="guess-container">
+            <hr />
             Total guesses: @guessed
         </div>
     </div>
