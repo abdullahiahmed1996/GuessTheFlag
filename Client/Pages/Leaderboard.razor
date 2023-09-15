@@ -2,32 +2,39 @@
 @inject NavigationManager NavigationManager
 @inject IUserService userService
 
+
 <div class="main-background">
     
     <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
 
     <div class="blue-box text-center">
         <h1 class="gtfHeader text-white">Leaderboard</h1>
-        @* <ol>
-            @foreach (var userScore in topScores)
-            {
-                <li>@userScore.Username - Score: @userScore.Score</li>
-            }
-        </ol> *@
+ 
 
         @if (topScores != null && topScores.Any())
         {
-            <ol>
-                @foreach (var userScore in topScores)
-                {
-                    <li>@userScore.Username - Score: @userScore.Score</li>
-                }
-            </ol>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var userScore in topScores)
+                    {
+                        <tr>
+                            <td>@userScore.Username</td>
+                            <td>@userScore.Score</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-        else
+        @* else
         {
             <p>No top scores found.</p>
-        }
+        } *@
 
         <button @onclick="NavigateToMainPage" type="button" class="btn btn-light ">
             Play
@@ -42,23 +49,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
-
         try
         {
             topScores = await userService.GetTopScoresAsync(5);
-
-            if (topScores == null || !topScores.Any())
-            {
-                
-                topScores = new List<UserModel>();
-            }
         }
         catch (Exception ex)
         {
-            
+            topScores = new List<UserModel>();
             Console.WriteLine($"Error fetching top scores: {ex.Message}");
-            topScores = new List<UserModel>(); 
         }
 
     }

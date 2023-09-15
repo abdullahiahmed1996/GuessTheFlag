@@ -49,7 +49,6 @@ namespace GuessTheFlag.Client.Services
             }
         }
 
-
         /// <summary>
         /// Sparar en användares poäng i API:et.
         /// </summary>
