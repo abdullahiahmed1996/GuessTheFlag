@@ -1,4 +1,5 @@
 ﻿using GuessTheFlag.Shared.Models;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
 
 namespace GuessTheFlag.Client.Services
@@ -7,6 +8,7 @@ namespace GuessTheFlag.Client.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<UserService> _logger;
+
 
         public UserService(HttpClient httpClient, ILogger<UserService> logger)
         {
@@ -24,17 +26,20 @@ namespace GuessTheFlag.Client.Services
             try
             {
                 // Anropa API för att hämta bestämda antal top poäng
-                var response = await _httpClient.GetFromJsonAsync<List<UserModel>>($"api/users/topscores/{count}");
+                var response = await _httpClient.GetStringAsync($"api/users/topscores/{count}");
 
-                if(response != null)
+                if (!string.IsNullOrEmpty(response))
                 {
-                    return response;
-                }else
+                    var users = JsonConvert.DeserializeObject<List<UserModel>>(response);
+                    return users;
+                }
+                else
                 {
                     _logger.LogError("No top scores found!");
                     return new List<UserModel>();
                 }
-            }catch(HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 _logger.LogWarning($"No top scores found: {ex.Message}");
                 return new List<UserModel>();
