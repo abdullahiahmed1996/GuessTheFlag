@@ -15,7 +15,7 @@ main-background {
 .blue-box {
     background-color: #1D5174; /* Blue box background color */
     width: 300px; /* Adjust the width as needed */
-    height: 300px; /* Adjust the height as needed */
+    height: 410px; /* Adjust the height as needed */
     position: absolute; /* Position the box relative to the parent */
     top: 50%; /* Center the box vertically */
     left: 50%; /* Center the box horizontally */
@@ -29,4 +29,7 @@ main-background {
 }
 .gtfHeader {
     font-size: 40px;
+}
+.table {
+    color: white;
 }
