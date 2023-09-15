@@ -48,19 +48,8 @@
 
                 if (!isUsernameTaken)
                 {
-                    //// Save the username to the database
-                    //var savedUser = await userService.SaveUsernameAsync(username);
-
-                    //if (savedUser != null)
-                    //{
-                    //    // Username saved successfully, navigate to the game page
-                        navigationManager.NavigateTo($"/guesstheflag?username={Uri.EscapeDataString(username)}");
-                    //}
-                    //else
-                    //{
-                    //    // Handle errors or display an error message
-                    //    errorMessage = "Username could not be saved.";
-                    //}
+                        // Username saved successfully, navigate to the game page
+                        navigationManager.NavigateTo($"/guesstheflag?username={Uri.EscapeDataString(username)}");   
                 }
                 else
                 {
