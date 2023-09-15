@@ -1,9 +1,12 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
 
+
+
     <body class="main-background">
     <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
         <div class="blue-box text-center">
+ 
             <h1 class="gtfHeader text-white">Guess the flag</h1>
             <p class=" text-white">
                 Discover the flags and <br>
@@ -21,17 +24,11 @@
 
 
 
-
-<style>
-
-
-    /* Add styles for your page content here */
-</style>
-
 @code {
+
     private void NavigateToLeaderboard()
     {
-        NavigationManager.NavigateTo("/Leaderboard");
+        NavigationManager.NavigateTo("/leaderboard");
     }
 
     private void NavigateToPlay()
