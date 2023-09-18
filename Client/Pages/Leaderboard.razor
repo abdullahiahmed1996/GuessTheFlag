@@ -1,7 +1,6 @@
 ﻿@page "/leaderboard"
 @inject NavigationManager NavigationManager
-
-
+@inject IUserService userService
 
 
 <body class="main-background">
@@ -10,9 +9,33 @@
 
     <div class="blue-box text-center">
         <h1 class="gtfHeader text-white">Leaderboard</h1>
-        <ol>
+ 
 
-        </ol>
+        @if (topScores != null && topScores.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var userScore in topScores)
+                    {
+                        <tr>
+                            <td>@userScore.Username</td>
+                            <td>@userScore.Score</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+         else
+        {
+            <p>No top scores found.</p>
+        } 
+
         <button @onclick="NavigateToMainPage" type="button" class="btn btn-light ">
             Play
         </button>
@@ -21,6 +44,22 @@
 </body>
 
 @code {
+
+    private List<UserModel> topScores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            topScores = await userService.GetTopScoresAsync(5);
+        }
+        catch (Exception ex)
+        {
+            topScores = new List<UserModel>();
+            Console.WriteLine($"Error fetching top scores: {ex.Message}");
+        }
+
+    }
 
     private void NavigateToMainPage()
     {
