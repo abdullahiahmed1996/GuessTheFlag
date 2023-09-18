@@ -1,0 +1,43 @@
+﻿@page "/instructionpage";
+@inject NavigationManager NavigationManager
+
+
+
+<body class="main-background">
+    <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
+    <div class="blue-box text-center">
+        <h4 class="gtfHeader text-white">Instructions</h4>
+        <hr />
+        <ul class="">
+            <li>Guess the right flag by clicking on the correct name.</li>
+            <li class="greenLi ">The text will turn green if you are correct.</li>
+            <li class="redLi">The text will turn red if you are incorrect.</li>
+            <li>You only get points if you are correct on your first try. Good luck!</li>
+        </ul>
+        <hr />
+        <button @onclick="NavigateToPlay" type="button" class="btn btn-light ">
+            Play
+        </button>
+
+    </div>
+</body>
+
+
+
+@code {
+
+    private void NavigateToLeaderboard()
+    {
+        NavigationManager.NavigateTo("/leaderboard");
+    }
+
+    private void NavigateToPlay()
+    {
+        NavigationManager.NavigateTo("/nickname");
+    }
+
+    private void NavigateToInstructions()
+    {
+        NavigationManager.NavigateTo("/instructionpage");
+    }
+}

@@ -19,7 +19,7 @@
 
 #nickname {
     width: 220px;
-    margin-left: 14px;
+    margin-left: 30px;
 }
 
 
@@ -33,7 +33,7 @@
 
 .blue-box {
     background-color: lightsalmon; /* Blue box background color */
-    width: 250px; /* Adjust the width as needed */
+    width: 280px; /* Adjust the width as needed */
     height: 360px; /* Adjust the height as needed */
     position: absolute; /* Position the box relative to the parent */
     top: 47%; /* Center the box vertically */
