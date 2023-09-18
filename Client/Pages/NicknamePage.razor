@@ -6,9 +6,10 @@
 <div class="main-background">
     <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
     <div class="blue-box text-center">
-        <h3 class="gtfHeader text-white">Choose your Nickname</h3>
+        <h3 class="gtfHeader text-white">Choose your nickname</h3>
+        <hr />
         <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname" @bind="username">
-        <button type="button" class="btn btn-light" @onclick="SaveUsername" disabled="@isSavingUsername">
+        <button type="button" class="btn btn-light mt-2" @onclick="SaveUsername" disabled="@isSavingUsername">
             @if (isSavingUsername)
             {
                 <span>Saving...</span>
