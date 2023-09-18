@@ -3,27 +3,28 @@
 @inject NavigationManager navManager
 
 
-<div class="main-background">
+<body class="main-background">
     <img class="backgroundpic" src="Images/Background.jpg" ); alt="backgroundpic" />
     <div class="blue-box text-center">
-        <h1 class="gtfHeader text-white">Your Score:</h1>
-        <br />
+        <h1 class="gtfHeader text-white mt-1">Your Score</h1>
+        <hr />
        <div class="print-points">
-            <label class="text-white">
-                Your Score: @score
+            <label class="text-white scoreHeader">  
+                @score
             </label>
        </div>
         <div class="buttons">
-            <button @onclick="PlayAgain" type="button" class="btn-play btn-light ">
+            <hr />
+            <button @onclick="PlayAgain" type="button" class="btn btn-play btn-light ">
                 Play again
             </button>
             <br />
-            <button @onclick="StopPlaying" type="button" class="btn-stopplaying btn-light mt-3">
+            <button @onclick="StopPlaying" type="button" class="btn btn-stopplaying btn-light mt-3">
                 Stop playing
             </button>
         </div>
     </div>
-</div>
+</body>
 
 
 
