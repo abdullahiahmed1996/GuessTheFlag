@@ -30,7 +30,7 @@
     padding: 10px;
     background-color: navajowhite;/* Blue box background color */
     width: 250px; /* Adjust the width as needed */
-    height: 420px; /* Adjust the height as needed */
+    height: 500px; /* Adjust the height as needed */
     position: absolute; /* Position the box relative to the parent */
     top: 47%; /* Center the box vertically */
     left: 50%; /* Center the box horizontally */
@@ -65,5 +65,34 @@
 }
 
 .guess-container {
-    
+ margin : 0px;
+
 }
+.option {
+    display: block;
+/*    padding: 10px 20px;*/
+    margin: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px;
+    width: 200px;
+}
+
+    .option.correctAnswer {
+        background-color: #4CAF50; /* Green color for correct answer */
+        color: #fff;
+        
+    }
+
+    .option.wrongAnswer {
+        background-color: #FF5733; /* Red color for wrong answer */
+        color: #fff;
+        
+    }
+
+    .option:hover {
+        background-color: #ddd; /* Hover effect */
+    }

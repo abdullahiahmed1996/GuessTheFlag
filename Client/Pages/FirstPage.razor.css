@@ -29,3 +29,13 @@
 p {
     font-size: 20px;
 }
+.btn-instructions {
+    margin-left: 240px;
+    justify-content: end;
+    margin-top: 0px;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+}

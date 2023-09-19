@@ -29,6 +29,7 @@
 
 p {
     font-size: 20px;
+    color: white;
 }
 
 .greenLi {
@@ -42,4 +43,7 @@ p {
 ul {
     padding: 0;
     list-style-type: none;
+    color: white;
+    margin-left: 5px;
+    margin-right: 5px;
 }

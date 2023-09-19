@@ -5,7 +5,10 @@
 
     <body class="main-background">
     <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
-        <div class="blue-box text-center">
+    <div class="blue-box text-center">
+        <button @onclick="NavigateToInstructions" type="button" class="btn btn-instructions">
+            ?
+        </button>
             <h4 class="gtfHeader text-white">Guess the flag</h4>
             <p class=" text-white">
                 Discover the flags and <br>
@@ -22,9 +25,7 @@
             </button>
             <br />
         <hr />
-        <button @onclick="NavigateToInstructions" type="button" class="btn btn-light mt-3">
-            Instructions
-        </button>
+
         </div>
     </body>
 

@@ -17,7 +17,9 @@
             </div>
             
         </div>
-
+        <div class="guess-container">
+            Total guesses: @guessed
+        </div>
         <div class="flag">
             <hr />
             @if (currentFlag != null)
@@ -28,25 +30,37 @@
         <div class="options-container">
             @if (options != null)
             {
-                @foreach (var option in options)
-                {
-                    <div class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
+                <div class="btn btn-options">
+                    @foreach (var option in options)
+                    {
+                        <button class="option @(correctAnswerSelected && option.Id == (currentFlag?.Country.Id ?? -1) ? "correctAnswer" : "")
                         @(IsSelectedWrongAnswer(option) ? "wrongAnswer" : "")" @onclick="() => CheckAnswer(option)" @key="option.Id">
-                        @option.Name
-                    </div>
-                }
+                            @option.Name
+                        </button>
+                    }
+                </div>
+                
             }
 
         </div>
-        @if (showNextButton)
+
+        @if (isLastQuestionAnswered)
         {
-            <hr />
-            <button class="btn btn-success" id="nextBtn" @onclick="NextFlag">Next</button>
+            @if (showFinishBtton)
+            {
+                <button class="btn btn-success" id="exitBtn" @onclick="GoToScore">Finish</button>
+
+            }
         }
-        <div class="guess-container">
-            <hr />
-            Total guesses: @guessed
-        </div>
+        else
+        {
+            @if (showNextButton)
+            {
+                <hr />
+                <button class="btn btn-success" id="nextBtn" @onclick="NextFlag">Next</button>
+            }
+        }
+       
     </div>
     
    
@@ -64,9 +78,11 @@
     private int currentQuestion = 1;
     private int selectedWrongAnswerId = -1;
     private bool showNextButton = false;
+    private bool showFinishBtton = false;
     private bool wrongAnswerSelected = false;
     private bool correctAnswerSelected = false;
     private bool correctAnswerGuessed = false;
+    private bool isLastQuestionAnswered = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -93,40 +109,43 @@
         options = countries.OrderBy(c => Guid.NewGuid()).ToList();
     }
 
-    private  void CheckAnswer(CountryModel selectedCountry)
+    private void CheckAnswer(CountryModel selectedCountry)
     {
         if (selectedCountry.Id == (currentFlag?.CountryId ?? -1))
         {
-            if(!correctAnswerGuessed && !wrongAnswerSelected)
+            if (!correctAnswerGuessed && !wrongAnswerSelected)
             {
                 score++;
                 correctAnswerGuessed = true;
             }
 
-            // Rätt svar ger poäng och ökar antal gissnningar
+            // Rätt svar ger poäng och ökar antal gissningar
             //score++;
             showNextButton = true;
             wrongAnswerSelected = false;
             correctAnswerSelected = true;
+
+            if (currentQuestion == totalQuestions)
+            {
+                isLastQuestionAnswered = true;
+            }
         }
         else
         {
-            // Fel svar! Gör alternativet rött och fortsätt gissa 
+            // Fel svar! Gör alternativet rött och fortsätt gissa
             wrongAnswerSelected = true;
             correctAnswerSelected = false;
             selectedWrongAnswerId = selectedCountry.Id;
         }
         guessed++;
 
-        if (currentQuestion == 10)
+        if (currentQuestion == totalQuestions)
         {
-            // Visa nästa sida 
-            navManager.NavigateTo($"/score?username={Uri.EscapeDataString(username)}&score={score}");
+            // Visa nästa sida
+            showFinishBtton = true;
         }
 
         StateHasChanged();
-
-
     }
 
     private async Task NextFlag()
@@ -148,6 +167,9 @@
         // Check if the option is the selected incorrect answer
         return option.Id == selectedWrongAnswerId;
     }
-
+    private void GoToScore()
+    {
+        navManager.NavigateTo($"/score?username={Uri.EscapeDataString(username)}&score={score}");
+    }
 
 }
