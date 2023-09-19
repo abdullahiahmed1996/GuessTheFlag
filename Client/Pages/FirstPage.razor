@@ -6,19 +6,25 @@
     <body class="main-background">
     <img class="fullscreen-image" src="Images/Background.jpg" alt="Background Image" />
         <div class="blue-box text-center">
- 
-            <h1 class="gtfHeader text-white">Guess the flag</h1>
+            <h4 class="gtfHeader text-white">Guess the flag</h4>
             <p class=" text-white">
                 Discover the flags and <br>
                 learn the world!
             </p>
-        <button @onclick="NavigateToPlay" type="button" class="btn btn-light">
+            <hr />
+        <button @onclick="NavigateToPlay" type="button" class="btn btn-light ">
             Play
         </button>
+
             <br>
-            <button @onclick="NavigateToLeaderboard" type="button" class="btn btn-light mt-3">
+            <button @onclick="NavigateToLeaderboard" type="button" class="btn btn-light mt-2">
                 Leaderboard
             </button>
+            <br />
+        <hr />
+        <button @onclick="NavigateToInstructions" type="button" class="btn btn-light mt-3">
+            Instructions
+        </button>
         </div>
     </body>
 
@@ -34,5 +40,10 @@
     private void NavigateToPlay()
     {
         NavigationManager.NavigateTo("/nickname");
+    }
+
+    private void NavigateToInstructions()
+    {
+        NavigationManager.NavigateTo("/instructionpage");
     }
 }
