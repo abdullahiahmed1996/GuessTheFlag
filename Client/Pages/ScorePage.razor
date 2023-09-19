@@ -22,6 +22,9 @@
             <button @onclick="StopPlaying" type="button" class="btn btn-stopplaying btn-light mt-3">
                 Stop playing
             </button>
+            <button @onclick="Leaderboard" type="button" class="btn btn-stopplaying btn-light mt-3">
+                Leaderboard
+            </button>
         </div>
     </div>
 </body>
@@ -69,4 +72,9 @@
         navManager.NavigateTo("/");
     }
 
+    private async Task Leaderboard()
+    {
+        await SaveScore();
+        navManager.NavigateTo("/leaderboard");
+    }
 }
